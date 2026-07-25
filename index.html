@@ -33,16 +33,17 @@
             border-radius: 4px;
         }
 
+        /* Envelope animation smooth movement */
         #moving-envelope {
-            transition: all 2.8s ease-in-out;
+            transition: all 1.8s ease-in-out;
         }
 
         .interactive-node {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .interactive-node:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.3);
+            transform: scale(1.04);
+            box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.25);
         }
     </style>
 </head>
@@ -54,7 +55,7 @@
             
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-full border-2 border-amber-500 overflow-hidden bg-amber-200 flex-shrink-0 shadow-md">
-                    <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="Crazy Avatar Header" class="w-full h-full object-cover">
+                    <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="Avatar" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h1 class="font-black text-lg tracking-wide text-slate-900">NET_ACADEMY // <span class="text-amber-700">שיעור NAT המלא לבגרות</span></h1>
@@ -130,80 +131,43 @@
                         <p class="text-slate-500">[10:00:00] NAT Lesson System Loaded.</p>
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-amber-100 flex justify-between items-center">
-                    <button onclick="resetProgress()" class="text-xs text-red-600 hover:text-red-800 flex items-center gap-1 font-semibold transition-colors">
-                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                        <span>אפס סימולציה</span>
-                    </button>
-                </div>
             </div>
         </aside>
 
         <!-- CONTENT DISPLAY AREA -->
         <section class="lg:col-span-9 flex flex-col gap-6">
 
-            <!-- STEP 0: FULL THEORY ON NAT -->
+            <!-- STEP 0: THEORY -->
             <div id="step-0" class="step-container space-y-5">
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm space-y-5">
                     <div>
                         <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">מבוא תיאורטי - תקשורת מחשבים</span>
                         <h2 class="text-2xl font-black text-slate-900 mt-2">מהו NAT? (Network Address Translation)</h2>
                         <p class="text-slate-700 leading-relaxed text-sm mt-1">
-                            מנגנון <strong>NAT</strong> תוכנן במקור כדי לפתור את בעיית מחסור הכתובות בפרוטוקול IPv4. המטרה: לאפשר לרשתות פרטיות פנימיות לגלוש ברשת האינטרנט הציבורית תוך שימוש בכתובת IP ציבורית אחת בלבד (או מספר מועט של כתובות ציבוריות).
+                            מנגנון <strong>NAT</strong> תוכנן במקור כדי לפתור את בעיית מחסור הכתובות בפרוטוקול IPv4. המטרה: לאפשר לרשתות פרטיות פנימיות לגלוש ברשת האינטרנט הציבורית תוך שימוש בכתובת IP ציבורית אחת בלבד.
                         </p>
                     </div>
 
-                    <!-- 3 NAT TYPES GRID -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
                             <span class="font-bold text-amber-900 text-sm block">1. NAT סטטי (Static NAT)</span>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                מיפוי קבוע של 1:1 בין כתובת פרטית פנימית לכתובת ציבורית חיצונית. משמש בעיקר לפרסום שרתים פנימיים (כמו שרת דואר/אינטרנט) לרשת החיצונית.
+                                מיפוי קבוע של 1:1 בין כתובת פרטית פנימית לכתובת ציבורית חיצונית.
                             </p>
                         </div>
 
                         <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
                             <span class="font-bold text-amber-900 text-sm block">2. NAT דינמי (Dynamic NAT)</span>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                המרת כתובת פרטית מתוך בריכת כתובות (Pool) ציבוריות זמינות. המיפוי אינו קבוע, אלא מתבצע על בסיס "כל הקודם זוכה" בזמן הפנייה.
+                                המרת כתובת פרטית מתוך בריכת כתובות (Pool) ציבוריות זמינות.
                             </p>
                         </div>
 
                         <div class="bg-amber-600 text-white p-4 rounded-xl space-y-2 shadow-sm">
                             <span class="font-bold text-yellow-200 text-sm block">3. NAT Overload / PAT ★</span>
                             <p class="text-xs text-amber-50 leading-relaxed">
-                                (Port Address Translation) - השיטה הנפוצה ביותר בציוד ביתי וארגוני. מאפשרת לריבוי מחשבים מוצפנים לשתף כתובת ציבורית יחידה על ידי הבחנה במספרי פורטים (Port Numbers).
+                                מאפשר לריבוי מחשבים מוצפנים לשתף כתובת ציבורית יחידה על ידי מספרי פורטים.
                             </p>
-                        </div>
-                    </div>
-
-                    <!-- TERMINOLOGY TABLE -->
-                    <div class="border border-slate-200 rounded-xl overflow-hidden">
-                        <div class="bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700">מושגי יסוד ב-NAT לקראת הבחינה:</div>
-                        <div class="divide-y divide-slate-100 text-xs">
-                            <div class="p-3 flex justify-between gap-4"><span class="font-bold text-slate-800 w-1/3">Inside Local:</span><span class="text-slate-600 w-2/3">הכתובת הפרטית של התחנה ברשת הפנימית (למשל 172.16.1.100)</span></div>
-                            <div class="p-3 flex justify-between gap-4 bg-slate-50/50"><span class="font-bold text-slate-800 w-1/3">Inside Global:</span><span class="text-slate-600 w-2/3">הכתובת הציבורית שמייצגת את הרשת הפנימית בחוץ (למשל 100.2.3.2)</span></div>
-                            <div class="p-3 flex justify-between gap-4"><span class="font-bold text-slate-800 w-1/3">Outside Local/Global:</span><span class="text-slate-600 w-2/3">כתובת ה-IP הציבורית של היעד החיצוני (למשל 8.8.8.5)</span></div>
-                        </div>
-                    </div>
-
-                    <!-- PROS & CONS -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl">
-                            <span class="font-bold text-emerald-800 block mb-1">✔ יתרונות NAT:</span>
-                            <ul class="list-disc list-inside space-y-1 text-slate-700">
-                                <li>חיסכון עצום בכתובות IPv4 ציבוריות.</li>
-                                <li>אבטחה היקפית (הרשת הפנימית מוסתרת מעיני האינטרנט).</li>
-                                <li>גמישות בשינוי ספק אינטרנט ללא שינוי הכתובות הפנימיות.</li>
-                            </ul>
-                        </div>
-                        <div class="p-3.5 bg-red-50 border border-red-200 rounded-xl">
-                            <span class="font-bold text-red-800 block mb-1">✖ חסרונות NAT:</span>
-                            <ul class="list-disc list-inside space-y-1 text-slate-700">
-                                <li>פגיעה ברציפות מקצה לקצה (End-to-End Connectivity).</li>
-                                <li>עיכוב קל בתקשורת (Latency) עקב עיבוד החבילות בנתב.</li>
-                                <li>קושי בהרצת פריצות דרך (כמו VoIP או Peer-to-Peer).</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -224,159 +188,157 @@
                     <h2 class="text-2xl font-black text-slate-900 mt-3 mb-2">תרגום כתובות בטופולוגיה ביתית (NAT Overload)</h2>
                     <p class="text-slate-700 leading-relaxed text-sm">
                         בטופולוגיה שלפניכם נעשה שימוש ב-<strong>NAT Overload</strong> על גבי הממשקים של הנתב <strong>Home_Router</strong>.
-                        <br>
-                        הממשקים מוגדרים כדלקמן:
                     </p>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
                         <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl">
                             <span class="text-xs font-bold text-amber-800 block mb-1">נתב Home_Router</span>
                             <ul class="text-xs text-slate-700 space-y-1 font-mono">
-                                <li>• Fa0/0: <span class="font-bold text-emerald-700">NAT Inside</span> (172.16.1.1/24)</li>
-                                <li>• Fa1/0: <span class="font-bold text-sky-700">NAT Outside</span> (100.2.3.2/24)</li>
+                                <li>• Fa0/0: <span class="font-bold text-emerald-700">Inside</span> (172.16.1.1)</li>
+                                <li>• Fa1/0: <span class="font-bold text-sky-700">Outside</span> (100.2.3.2)</li>
                             </ul>
                         </div>
 
                         <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl">
                             <span class="text-xs font-bold text-emerald-800 block mb-1">רשת פנימית (LAN)</span>
                             <ul class="text-xs text-slate-700 space-y-1 font-mono">
-                                <li>• PC0: 172.16.1.200/24</li>
-                                <li>• PC1: 172.16.1.100/24</li>
-                                <li>• Switch0: מחיבור Fa0/0 לנתב</li>
+                                <li>• PC0: 172.16.1.200</li>
+                                <li>• PC1: 172.16.1.100</li>
                             </ul>
                         </div>
 
                         <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl">
-                            <span class="text-xs font-bold text-sky-800 block mb-1">שרת אינטרנט חיצוני</span>
+                            <span class="text-xs font-bold text-sky-800 block mb-1">שרת אינטרנט</span>
                             <ul class="text-xs text-slate-700 space-y-1 font-mono">
-                                <li>• שם: www.mynet.com</li>
-                                <li>• IP: 8.8.8.5/24</li>
+                                <li>• www.mynet.com</li>
+                                <li>• IP: 8.8.8.5</li>
                             </ul>
                         </div>
-                    </div>
-
-                    <div class="mt-5 p-4 bg-amber-100/60 border border-amber-300 rounded-xl text-xs text-slate-800 flex items-start gap-3">
-                        <i data-lucide="info" class="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5"></i>
-                        <p class="leading-relaxed">
-                            <strong>סיפור האירוע:</strong> מחשב <strong>PC1</strong> מתקשר עם שרת האינטרנט <code>www.mynet.com</code> ומקבל ממנו את שתי חבילות הנתונים המופיעות בטופולוגיה. שימו לב לכיוון זרימת החבילות מראש!
-                        </p>
                     </div>
                 </div>
 
                 <div class="flex justify-between">
-                    <button onclick="switchStep(0)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
+                    <button onclick="switchStep(0)" class="bg-slate-200 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 text-xs">
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         <span>חזרה לתיאוריה</span>
                     </button>
-                    <button onclick="switchStep(2)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-md">
-                        <span>עבור לסימולציית המעטפה</span>
+                    <button onclick="switchStep(2)" class="bg-amber-600 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 shadow-md">
+                        <span>עבור לסימולציה</span>
                         <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 2: ANIMATED ENVELOPE SIMULATION -->
+            <!-- STEP 2: FIXED & EXACT SIMULATION CONTAINER -->
             <div id="step-2" class="step-container space-y-5 hidden">
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
                     <div class="flex justify-between items-center flex-wrap gap-2 mb-3">
                         <div>
                             <h2 class="text-xl font-black text-slate-900">סימולטור דינמי: תנועת מעטפות הנתונים</h2>
-                            <p class="text-xs text-slate-600">לחץ על הלחצנים למטה כדי לשגר את חבילת הנתונים, ולחץ על הציוד בטופולוגיה כדי לחקור את הגדרותיו.</p>
+                            <p class="text-xs text-slate-600">לחץ על כפתורי השיגור כדי לצפות בתקשורת הדו-כיוונית בזמן אמת.</p>
                         </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full">לחץ על כל רכיב בציור לקבלת פרטים</span>
                     </div>
 
-                    <!-- SIMULATION CANVAS CONTAINER -->
-                    <div id="sim-canvas" class="relative bg-gradient-to-b from-amber-50/60 to-orange-50/30 border border-amber-200 rounded-2xl p-6 min-h-[480px] overflow-hidden select-none">
+                    <!-- TOPOLOGY CANVAS WITH EXACT DYNAMIC SVG LINES -->
+                    <div id="sim-canvas" class="relative bg-gradient-to-b from-amber-50/50 to-orange-50/20 border border-amber-200 rounded-2xl p-6 min-h-[460px] flex flex-col justify-between select-none">
                         
-                        <!-- SERVER -->
-                        <div id="node-server" onclick="showNodeInfo('server')" class="interactive-node absolute top-6 right-8 bg-white border-2 border-sky-500 rounded-xl p-3 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
-                            <i data-lucide="server" class="w-8 h-8 text-sky-600 mb-1"></i>
-                            <span class="text-xs font-bold text-slate-800">www.mynet.com</span>
-                            <span class="text-[10px] font-mono text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded mt-1">8.8.8.5/24</span>
-                        </div>
+                        <!-- DYNAMIC SVG FOR EXACT LINE DRAWING -->
+                        <svg id="svg-connections" class="absolute inset-0 w-full h-full pointer-events-none z-0">
+                            <!-- Lines will be dynamically drawn with pixel perfection -->
+                        </svg>
 
-                        <!-- ROUTER -->
-                        <div id="node-router" onclick="showNodeInfo('router')" class="interactive-node absolute top-6 left-1/3 bg-white border-2 border-amber-500 rounded-xl p-3 flex flex-col items-center w-40 text-center cursor-pointer shadow-md">
-                            <i data-lucide="router" class="w-9 h-9 text-amber-600 mb-1"></i>
-                            <span class="text-xs font-bold text-slate-800">Home_Router</span>
-                            <div class="text-[9px] font-mono text-slate-600 mt-1 space-y-0.5">
-                                <p class="text-sky-700 font-bold">Fa1/0 (Outside): 100.2.3.2</p>
-                                <p class="text-emerald-700 font-bold">Fa0/0 (Inside): 172.16.1.1</p>
+                        <!-- ROW 1: ROUTER & SERVER -->
+                        <div class="flex justify-around items-center z-10 w-full pt-2">
+                            <!-- ROUTER -->
+                            <div id="node-router" onclick="showNodeInfo('router')" class="interactive-node bg-white border-2 border-amber-500 rounded-xl p-3 flex flex-col items-center w-44 text-center cursor-pointer shadow-md">
+                                <i data-lucide="router" class="w-8 h-8 text-amber-600 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-800">Home_Router</span>
+                                <div class="text-[9px] font-mono text-slate-600 mt-1 space-y-0.5">
+                                    <p class="text-sky-700 font-bold">Fa1/0 (Outside): 100.2.3.2</p>
+                                    <p class="text-emerald-700 font-bold">Fa0/0 (Inside): 172.16.1.1</p>
+                                </div>
+                            </div>
+
+                            <!-- SERVER -->
+                            <div id="node-server" onclick="showNodeInfo('server')" class="interactive-node bg-white border-2 border-sky-500 rounded-xl p-3 flex flex-col items-center w-40 text-center cursor-pointer shadow-md">
+                                <i data-lucide="server" class="w-8 h-8 text-sky-600 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-800">www.mynet.com</span>
+                                <span class="text-[10px] font-mono text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded mt-1">8.8.8.5/24</span>
                             </div>
                         </div>
 
-                        <!-- SWITCH -->
-                        <div id="node-switch" onclick="showNodeInfo('switch')" class="interactive-node absolute top-52 left-1/3 bg-white border-2 border-slate-400 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
-                            <i data-lucide="network" class="w-7 h-7 text-slate-600 mb-1"></i>
-                            <span class="text-xs font-bold text-slate-800">Switch0</span>
-                            <span class="text-[10px] text-slate-500 font-mono">Fa0/0 to Router</span>
+                        <!-- ROW 2: SWITCH -->
+                        <div class="flex justify-center z-10 w-full my-2">
+                            <div id="node-switch" onclick="showNodeInfo('switch')" class="interactive-node bg-white border-2 border-slate-400 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
+                                <i data-lucide="network" class="w-6 h-6 text-slate-600 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-800">Switch0</span>
+                                <span class="text-[10px] text-slate-500 font-mono">Fa0/0 to Router</span>
+                            </div>
                         </div>
 
-                        <!-- PC0 -->
-                        <div id="node-pc0" onclick="showNodeInfo('pc0')" class="interactive-node absolute bottom-6 left-10 bg-white border-2 border-slate-300 rounded-xl p-2.5 flex flex-col items-center w-32 text-center cursor-pointer shadow-md">
-                            <i data-lucide="monitor" class="w-7 h-7 text-slate-500 mb-1"></i>
-                            <span class="text-xs font-bold text-slate-800">PC0</span>
-                            <span class="text-[10px] font-mono text-slate-600">172.16.1.200</span>
-                        </div>
+                        <!-- ROW 3: PC0 & PC1 -->
+                        <div class="flex justify-around items-center z-10 w-full pb-2">
+                            <!-- PC0 -->
+                            <div id="node-pc0" onclick="showNodeInfo('pc0')" class="interactive-node bg-white border-2 border-slate-300 rounded-xl p-2.5 flex flex-col items-center w-32 text-center cursor-pointer shadow-md">
+                                <i data-lucide="monitor" class="w-6 h-6 text-slate-500 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-800">PC0</span>
+                                <span class="text-[10px] font-mono text-slate-600">172.16.1.200</span>
+                            </div>
 
-                        <!-- PC1 -->
-                        <div id="node-pc1" onclick="showNodeInfo('pc1')" class="interactive-node absolute bottom-6 left-1/2 bg-white border-2 border-emerald-500 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
-                            <i data-lucide="laptop" class="w-7 h-7 text-emerald-600 mb-1"></i>
-                            <span class="text-xs font-bold text-slate-800">PC1 (היעד)</span>
-                            <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-0.5">172.16.1.100</span>
+                            <!-- PC1 -->
+                            <div id="node-pc1" onclick="showNodeInfo('pc1')" class="interactive-node bg-white border-2 border-emerald-500 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
+                                <i data-lucide="laptop" class="w-7 h-7 text-emerald-600 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-800">PC1 (היוזם)</span>
+                                <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-0.5">172.16.1.100</span>
+                            </div>
                         </div>
-
-                        <!-- SVG CONNECTIONS LINES -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none stroke-slate-400 stroke-2" style="z-index: 1;">
-                            <line x1="80%" y1="12%" x2="48%" y2="12%" stroke-dasharray="4" />
-                            <line x1="40%" y1="18%" x2="40%" y2="45%" />
-                            <line x1="38%" y1="58%" x2="16%" y2="82%" />
-                            <line x1="42%" y1="58%" x2="52%" y2="82%" />
-                        </svg>
 
                         <!-- MOVING DETAILED ENVELOPE CARD -->
-                        <div id="moving-envelope" class="absolute z-20 bg-white border-2 border-amber-600 rounded-xl p-2.5 shadow-xl w-52 opacity-0 pointer-events-none transform -translate-x-1/2 -translate-y-1/2">
+                        <div id="moving-envelope" class="absolute z-30 bg-white border-2 border-amber-600 rounded-xl p-2.5 shadow-2xl w-52 opacity-0 pointer-events-none transform -translate-x-1/2 -translate-y-1/2">
                             <div class="flex items-center justify-between border-b border-amber-100 pb-1 mb-1">
                                 <span id="env-title" class="text-[10px] font-bold text-amber-800">חבילת נתונים</span>
                                 <i data-lucide="mail" class="w-4 h-4 text-amber-600"></i>
                             </div>
                             <div class="space-y-0.5 font-mono text-[10px]">
                                 <div class="flex justify-between">
-                                    <span class="text-slate-500">Source (מקור):</span>
-                                    <span id="env-src" class="font-bold text-amber-700">8.8.8.5</span>
+                                    <span class="text-slate-500">Source:</span>
+                                    <span id="env-src" class="font-bold text-amber-700">172.16.1.100</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-slate-500">Dest (יעד):</span>
-                                    <span id="env-dst" class="font-bold text-sky-700">100.2.3.2</span>
+                                    <span class="text-slate-500">Destination:</span>
+                                    <span id="env-dst" class="font-bold text-sky-700">8.8.8.5</span>
                                 </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- CONTROL PANEL -->
+                    <!-- CONTROL PANEL WITH CLEAR RESET BUTTON -->
                     <div class="mt-4 flex flex-wrap items-center justify-between gap-3 bg-amber-50/80 p-3.5 rounded-xl border border-amber-200">
                         <div class="text-xs text-slate-700">
-                            <span class="font-bold block">הפעלת הדגמת הזרימה:</span>
-                            <span>צפה בחבילה 1 (לפני הנתב) ובחבילה 2 (לאחר תרגום ה-NAT בנתב)</span>
+                            <span class="font-bold block">שליטת תלמיד בתנועת החבילות:</span>
+                            <span>חלק 1: יציאה מ-PC1 לשרת | חלק 2: תשובת השרת ל-PC1</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button id="btn-run-pkt1" onclick="simulatePacket(1)" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm">
+                            <button id="btn-run-pkt1" onclick="simulatePacket(1)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm">
                                 <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                                <span>שגר חבילת נתונים 1</span>
+                                <span>1. שיגור יציאה (PC1 ➔ שרת)</span>
                             </button>
-                            <button id="btn-run-pkt2" onclick="simulatePacket(2)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm disabled:opacity-40" disabled>
+                            <button id="btn-run-pkt2" onclick="simulatePacket(2)" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm disabled:opacity-40" disabled>
                                 <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
-                                <span>שגר חבילת נתונים 2</span>
+                                <span>2. שיגור חזרה (שרת ➔ PC1)</span>
+                            </button>
+                            <button onclick="resetProgress()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-1">
+                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-red-600"></i>
+                                <span>אפס שיגור</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- DYNAMIC SIMULATION STEP DESCRIPTION -->
+                    <!-- DYNAMIC STATUS -->
                     <div id="sim-status-box" class="mt-3 p-3.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 flex items-center gap-2">
                         <i data-lucide="help-circle" class="w-4 h-4 text-amber-600"></i>
-                        <span id="sim-status-text">לחץ על "שגר חבילת נתונים 1" כדי להתחיל את המעקב האיטי.</span>
+                        <span id="sim-status-text">לחץ על "1. שיגור יציאה" כדי להתחיל את הבקשה מ-PC1.</span>
                     </div>
 
                 </div>
@@ -386,45 +348,41 @@
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         <span>חזרה לנתונים</span>
                     </button>
-                    <button id="btn-to-step-3" onclick="switchStep(3)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs shadow-md">
+                    <button onclick="switchStep(3)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs shadow-md">
                         <span>עבור לפתרון שאלת הבגרות</span>
                         <i data-lucide="arrow-left" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 3: EXAM QUESTIONS PRACTICE -->
+            <!-- STEP 3: EXAM PRACTICE -->
             <div id="step-3" class="step-container space-y-5 hidden">
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm">
                     <div class="border-b border-amber-100 pb-3 mb-4">
                         <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">משימת סיכום לבגרות</span>
                         <h2 class="text-2xl font-black text-slate-900 mt-2">השלמת הסעיפים מתוך שאלת המבחן</h2>
-                        <p class="text-xs text-slate-600">השלם את הכתובות החסרות בהתאם לזרימת החבילות שראית בסימולציה:</p>
+                        <p class="text-xs text-slate-600">השלם את הכתובות החסרות בהתאם לחבילת התשובה (Reply) מהשרת:</p>
                     </div>
 
                     <form id="exam-form" onsubmit="checkExamAnswers(event)" class="space-y-4 text-xs">
                         
-                        <!-- Question 1 -->
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">1. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 1" היא:</label>
+                            <label class="font-bold text-slate-800 block mb-2">1. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 1" (לפני הנתב):</label>
                             <input type="text" id="q1-ans" placeholder="למשל: 100.2.3.2" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
 
-                        <!-- Question 2 -->
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">2. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 1" היא:</label>
+                            <label class="font-bold text-slate-800 block mb-2">2. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 1" (לפני הנתב):</label>
                             <input type="text" id="q2-ans" placeholder="למשל: 8.8.8.5" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
 
-                        <!-- Question 3 -->
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">3. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 2" היא:</label>
+                            <label class="font-bold text-slate-800 block mb-2">3. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 2" (לאחר תרגום הנתב):</label>
                             <input type="text" id="q3-ans" placeholder="למשל: 172.16.1.100" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
 
-                        <!-- Question 4 -->
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">4. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 2" היא:</label>
+                            <label class="font-bold text-slate-800 block mb-2">4. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 2" (לאחר תרגום הנתב):</label>
                             <input type="text" id="q4-ans" placeholder="למשל: 8.8.8.5" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
 
@@ -436,7 +394,6 @@
                         </div>
                     </form>
 
-                    <!-- Feedback Alert -->
                     <div id="exam-feedback" class="mt-4 hidden p-4 rounded-xl text-xs font-bold"></div>
                 </div>
 
@@ -464,11 +421,11 @@
         </div>
     </div>
 
-    <!-- FLOATING BOT BUTTON (FIXED Z-INDEX) -->
+    <!-- FLOATING BOT BUTTON -->
     <div class="fixed bottom-6 left-6 z-[9999]">
         <button id="openHelpModalBtn" class="flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-3 px-5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white">
             <div class="w-9 h-9 rounded-full border-2 border-white overflow-hidden bg-white flex-shrink-0 shadow-inner">
-                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="אווטר בוט עזרה" class="w-full h-full object-cover">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Avatar" class="w-full h-full object-cover">
             </div>
             <span class="text-xs font-bold">בוט עזרה מטורלל</span>
         </button>
@@ -476,20 +433,16 @@
 
     <!-- FLOATING BOT MODAL -->
     <div id="helpModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
-        <div class="bg-white border-2 border-amber-400 rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl transform transition-transform" id="helpModalContent">
-            
+        <div class="bg-white border-2 border-amber-400 rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl">
             <button id="closeHelpModalBtn" class="absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1.5 rounded-lg bg-slate-100">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            
             <div class="w-20 h-20 rounded-full mx-auto mb-3 border-2 border-amber-500 p-1 bg-amber-50 shadow-md overflow-hidden">
-                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="תמונת בוט עזרה" class="w-full h-full object-cover rounded-full">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Bot" class="w-full h-full object-cover rounded-full">
             </div>
-
             <h3 class="text-lg font-black text-slate-900 mb-1">צריך עזרה בשאלת הבגרות?</h3>
-            <p class="text-xs text-slate-600 mb-5 leading-relaxed">הבוט המטורלל מוכן להסביר לך בדיוק איך ה-NAT תרגם את הכתובת בחבילה 1 ובחבילה 2!</p>
-            
-            <a href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" class="w-full flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all shadow-md">
+            <p class="text-xs text-slate-600 mb-5 leading-relaxed">הבוט מוכן להסביר לך בדיוק איך ה-NAT תרגם את הכתובת!</p>
+            <a href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" class="w-full flex items-center justify-center gap-2 bg-amber-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs shadow-md">
                 <span>דבר עם הבוט המטורלל</span>
                 <i data-lucide="external-link" class="w-4 h-4"></i>
             </a>
@@ -501,84 +454,174 @@
         <p class="text-xs text-slate-600">© 2026 NET_ACADEMY - סימולטור פתרון בחינות בגרות בתקשורת מחשבים</p>
     </footer>
 
-    <!-- MAIN JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         let xp = 100;
-        let activeStep = 0;
-
         lucide.createIcons();
 
-        const nodesData = {
-            server: {
-                title: "שרת אינטרנט חיצוני (www.mynet.com)",
-                subtitle: "IP: 8.8.8.5 / 24",
-                desc: "שרת אינטרנט ציבורי הנמצא מחוץ לרשת הביתית. השרת מעביר דפי אינטרנט ותשובות למחשב PC1.",
-                extra: "תפקיד ב-NAT: Outside Destination / Source"
-            },
-            router: {
-                title: "נתב ביתי (Home_Router)",
-                subtitle: "NAT Overload Capable",
-                desc: "הנתב מבצע תרגום כתובות (NAT Overload). הוא משנה את כתובת ה-IP המוצגת כלפי חוץ כדי לאפשר למספר מחשבים פנימיים לגלוש דרך כתובת ציבורית בודדת.",
-                extra: "ממשק Fa1/0: Outside (100.2.3.2)\nממשק Fa0/0: Inside (172.16.1.1)"
-            },
-            switch: {
-                title: "מתג רשת (Switch0)",
-                subtitle: "Layer 2 Device",
-                desc: "מתג שמקשר בין המחשבים ברשת הפנימית לבין ממשק Fa0/0 של הנתב הביתי.",
-                extra: "חיבורים: Fa0/0 לנתב, Fa2/0 ל-PC0, Fa2/1 ל-PC1"
-            },
-            pc0: {
-                title: "תחנת קצה (PC0)",
-                subtitle: "IP: 172.16.1.200 / 24",
-                desc: "מחשב פנימי ברשת הביתית. בסימולציה זו אינו מעורב באופן פעיל בתקשורת.",
-                extra: "Default Gateway: 172.16.1.1"
-            },
-            pc1: {
-                title: "תחנת קצה (PC1 - היוזם)",
-                subtitle: "IP: 172.16.1.100 / 24",
-                desc: "המחשב ברשת הפנימית שיוזם את הפנייה לשרת www.mynet.com ומקבל ממנו את התשובות בחזרה.",
-                extra: "Default Gateway: 172.16.1.1\nמחובר לפורט Fa2/1 במתג"
+        // DYNAMICALLY DRAW DOTTED LINES BETWEEN ELEMENTS PERFECTLY
+        function drawTopologyLines() {
+            const svg = document.getElementById('svg-connections');
+            const canvas = document.getElementById('sim-canvas');
+            if(!svg || !canvas) return;
+
+            const cRect = canvas.getBoundingClientRect();
+
+            function getCenter(id) {
+                const el = document.getElementById(id);
+                if(!el) return { x: 0, y: 0 };
+                const r = el.getBoundingClientRect();
+                return {
+                    x: r.left + r.width / 2 - cRect.left,
+                    y: r.top + r.height / 2 - cRect.top
+                };
             }
-        };
 
-        function showNodeInfo(key) {
-            const data = nodesData[key];
-            if (!data) return;
+            const router = getCenter('node-router');
+            const server = getCenter('node-server');
+            const switchNode = getCenter('node-switch');
+            const pc0 = getCenter('node-pc0');
+            const pc1 = getCenter('node-pc1');
 
-            document.getElementById('modal-title').innerText = data.title;
-            document.getElementById('modal-subtitle').innerText = data.subtitle;
-            document.getElementById('modal-desc').innerText = data.desc;
-            document.getElementById('modal-extra').innerText = data.extra;
-
-            document.getElementById('nodeModal').classList.remove('hidden');
-            addLog(`לחץ על רכיב: ${data.title}`);
+            svg.innerHTML = `
+                <!-- Router to Server -->
+                <line x1="${router.x}" y1="${router.y}" x2="${server.x}" y2="${server.y}" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6,6" />
+                <!-- Router to Switch -->
+                <line x1="${router.x}" y1="${router.y}" x2="${switchNode.x}" y2="${switchNode.y}" stroke="#64748b" stroke-width="2.5" />
+                <!-- Switch to PC0 -->
+                <line x1="${switchNode.x}" y1="${switchNode.y}" x2="${pc0.x}" y2="${pc0.y}" stroke="#94a3b8" stroke-width="2" />
+                <!-- Switch to PC1 -->
+                <line x1="${switchNode.x}" y1="${switchNode.y}" x2="${pc1.x}" y2="${pc1.y}" stroke="#10b981" stroke-width="2.5" />
+            `;
         }
 
-        function closeNodeModal() {
-            document.getElementById('nodeModal').classList.add('hidden');
+        window.addEventListener('resize', drawTopologyLines);
+        setTimeout(drawTopologyLines, 300);
+
+        function getNodePos(id) {
+            const canvas = document.getElementById('sim-canvas');
+            const cRect = canvas.getBoundingClientRect();
+            const el = document.getElementById(id);
+            const r = el.getBoundingClientRect();
+            return {
+                x: r.left + r.width / 2 - cRect.left,
+                y: r.top + r.height / 2 - cRect.top
+            };
+        }
+
+        // SIMULATION ENVELOPE LOGIC (PART 1 & PART 2)
+        function simulatePacket(part) {
+            drawTopologyLines();
+            const env = document.getElementById('moving-envelope');
+            const btn1 = document.getElementById('btn-run-pkt1');
+            const btn2 = document.getElementById('btn-run-pkt2');
+            const statusText = document.getElementById('sim-status-text');
+
+            const posPC1 = getNodePos('node-pc1');
+            const posSwitch = getNodePos('node-switch');
+            const posRouter = getNodePos('node-router');
+            const posServer = getNodePos('node-server');
+
+            env.style.opacity = '1';
+
+            if (part === 1) {
+                // PART 1: PC1 -> Router (NAT translation) -> Server
+                btn1.disabled = true;
+                
+                document.getElementById('env-title').innerText = "בקשה מיוצאת (Request)";
+                document.getElementById('env-src').innerText = "172.16.1.100";
+                document.getElementById('env-dst').innerText = "8.8.8.5";
+
+                // Step A: Start at PC1
+                env.style.left = `${posPC1.x}px`;
+                env.style.top = `${posPC1.y}px`;
+                statusText.innerText = "חלק 1: החבילה יוצאת מ-PC1 (172.16.1.100) לכיוון המתג...";
+
+                setTimeout(() => {
+                    // Step B: Move to Router
+                    env.style.left = `${posRouter.x}px`;
+                    env.style.top = `${posRouter.y}px`;
+                    
+                    setTimeout(() => {
+                        // NAT Transformation at Router
+                        document.getElementById('env-src').innerText = "100.2.3.2 (NAT)";
+                        statusText.innerText = "הנתב תירגם את כתובת המקור מ-172.16.1.100 לכתובת הציבורית 100.2.3.2!";
+                        addLog("[NAT Outgoing] תורגם מקור: 172.16.1.100 ➔ 100.2.3.2");
+
+                        setTimeout(() => {
+                            // Step C: Move to Server
+                            env.style.left = `${posServer.x}px`;
+                            env.style.top = `${posServer.y}px`;
+
+                            setTimeout(() => {
+                                statusText.innerText = "החבילה הגיעה לשרת (8.8.8.5)! כעת ניתן לשגר את חבילת התשובה חזרה.";
+                                addLog("[Server] בקשה התקבלה ב-8.8.8.5");
+                                btn2.disabled = false;
+                            }, 1800);
+                        }, 1200);
+                    }, 1800);
+                }, 200);
+
+            } else if (part === 2) {
+                // PART 2: Server -> Router (NAT translation) -> PC1 (BAGRUT QUESTION CASE)
+                btn2.disabled = true;
+
+                document.getElementById('env-title').innerText = "תשובה מוחזרת (Reply)";
+                document.getElementById('env-src').innerText = "8.8.8.5";
+                document.getElementById('env-dst').innerText = "100.2.3.2";
+
+                // Step A: Start at Server
+                env.style.left = `${posServer.x}px`;
+                env.style.top = `${posServer.y}px`;
+                statusText.innerText = "חלק 2 (שאלת הבגרות): החבילה חוזרת מהשרת (8.8.8.5) אל הכתובת הציבורית של הנתב (100.2.3.2)...";
+
+                setTimeout(() => {
+                    // Step B: Move to Router Outside
+                    env.style.left = `${posRouter.x}px`;
+                    env.style.top = `${posRouter.y}px`;
+
+                    setTimeout(() => {
+                        // NAT Translation
+                        document.getElementById('env-dst').innerText = "172.16.1.100 (NAT)";
+                        statusText.innerText = "הנתב קיבל את התשובה בפורט הציבורי ותירגם את היעד חזרה ל-PC1 (172.16.1.100)!";
+                        addLog("[NAT Incoming] תורגם יעד: 100.2.3.2 ➔ 172.16.1.100");
+
+                        setTimeout(() => {
+                            // Step C: Move to PC1
+                            env.style.left = `${posPC1.x}px`;
+                            env.style.top = `${posPC1.y}px`;
+
+                            setTimeout(() => {
+                                statusText.innerText = "התקשורת הושלמה בהצלחה! PC1 קיבל את התשובה מהשרת.";
+                                addLog("[PC1] תשובת השרת התקבלה בהצלחה.");
+                            }, 1800);
+                        }, 1200);
+                    }, 1800);
+                }, 200);
+            }
+        }
+
+        function resetProgress() {
+            document.getElementById('btn-run-pkt1').disabled = false;
+            document.getElementById('btn-run-pkt2').disabled = true;
+            document.getElementById('moving-envelope').style.opacity = '0';
+            document.getElementById('sim-status-text').innerText = 'הסימולציה אופסה. לחץ על "1. שיגור יציאה" להפעלה מחדש.';
+            addLog("הסימולציה אופסה לבקשת התלמיד.");
         }
 
         function switchStep(stepNum) {
             for (let i = 0; i <= 3; i++) {
                 const el = document.getElementById(`step-${i}`);
                 if(el) el.classList.add('hidden');
-                
                 const btn = document.getElementById(`btn-step-${i}`);
-                if (btn) {
-                    btn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold";
-                }
+                if (btn) btn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold";
             }
-
-            const current = document.getElementById(`step-${stepNum}`);
-            if(current) current.classList.remove('hidden');
-
-            const activeBtn = document.getElementById(`btn-step-${stepNum}`);
-            if (activeBtn) {
-                activeBtn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs";
+            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
+            document.getElementById(`btn-step-${stepNum}`).className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs";
+            
+            if(stepNum === 2) {
+                setTimeout(drawTopologyLines, 200);
             }
-
-            activeStep = stepNum;
-            addLog(`מעבר לשלב ${stepNum}`);
         }
 
         function addLog(text) {
@@ -588,68 +631,31 @@
             logBox.scrollTop = logBox.scrollHeight;
         }
 
-        function simulatePacket(step) {
-            const env = document.getElementById('moving-envelope');
-            const btn1 = document.getElementById('btn-run-pkt1');
-            const btn2 = document.getElementById('btn-run-pkt2');
-            const statusText = document.getElementById('sim-status-text');
+        const nodesData = {
+            server: { title: "שרת אינטרנט חיצוני (www.mynet.com)", subtitle: "IP: 8.8.8.5", desc: "שרת אינטרנט ציבורי שמחזיר את דף אינטרנט המבוקש.", extra: "Outside IP: 8.8.8.5" },
+            router: { title: "נתב ביתי (Home_Router)", subtitle: "NAT Overload", desc: "מבצע תרגום כתובות בין הרשת הפנימית לאינטרנט.", extra: "Fa1/0 (Outside): 100.2.3.2\nFa0/0 (Inside): 172.16.1.1" },
+            switch: { title: "מתג רשת (Switch0)", subtitle: "Layer 2", desc: "מחבר בין הציוד ברשת הפנימית לנתב.", extra: "Switching LAN Traffic" },
+            pc0: { title: "תחנת PC0", subtitle: "IP: 172.16.1.200", desc: "מחשב ברשת הפנימית.", extra: "Default Gateway: 172.16.1.1" },
+            pc1: { title: "תחנת PC1 (היוזם)", subtitle: "IP: 172.16.1.100", desc: "המחשב שיוזם את הפנייה לשרת.", extra: "Default Gateway: 172.16.1.1" }
+        };
 
-            env.style.opacity = '1';
-
-            if (step === 1) {
-                btn1.disabled = true;
-                document.getElementById('env-title').innerText = "חבילת נתונים 1 (לפני NAT)";
-                document.getElementById('env-src').innerText = "8.8.8.5";
-                document.getElementById('env-dst').innerText = "100.2.3.2";
-
-                env.style.top = "12%";
-                env.style.left = "75%";
-
-                statusText.innerText = "חבילה 1 נשלחת מהשרת (8.8.8.5) לכיוון הכתובת הציבורית של הנתב (100.2.3.2)...";
-                addLog("[חבילה 1] שוגרה משרת 8.8.8.5 אל יעד 100.2.3.2");
-
-                setTimeout(() => {
-                    env.style.top = "12%";
-                    env.style.left = "48%";
-
-                    setTimeout(() => {
-                        statusText.innerText = "חבילה 1 הגיעה לממשק Fa1/0 (NAT Outside) בנתב. כעת הנתב יבצע תרגום NAT!";
-                        addLog("[NAT Router] חבילה 1 הגיעה לממשק Outside. מתבצע תרגום יעד ל-172.16.1.100");
-                        btn2.disabled = false;
-                    }, 2800);
-                }, 100);
-
-            } else if (step === 2) {
-                btn2.disabled = true;
-                document.getElementById('env-title').innerText = "חבילת נתונים 2 (לאחר NAT)";
-                document.getElementById('env-src').innerText = "8.8.8.5";
-                document.getElementById('env-dst').innerText = "172.16.1.100";
-
-                env.style.top = "48%";
-                env.style.left = "40%";
-                statusText.innerText = "חבילה 2 מתורגמת! כתובת היעד שונתה לכתובת הפרטית של PC1 (172.16.1.100). החבילה נעה למתג...";
-                addLog("[חבילה 2] תורגמה. מקור: 8.8.8.5, יעד חדש: 172.16.1.100");
-
-                setTimeout(() => {
-                    env.style.top = "80%";
-                    env.style.left = "52%";
-
-                    setTimeout(() => {
-                        statusText.innerText = "החבילה הגיעה בהצלחה אל מחשב PC1 (172.16.1.100)! התהליך הושלם.";
-                        addLog("[PC1] החבילה התקבלה בהצלחה.");
-                    }, 2800);
-                }, 2800);
-            }
+        function showNodeInfo(k) {
+            const d = nodesData[k];
+            if(!d) return;
+            document.getElementById('modal-title').innerText = d.title;
+            document.getElementById('modal-subtitle').innerText = d.subtitle;
+            document.getElementById('modal-desc').innerText = d.desc;
+            document.getElementById('modal-extra').innerText = d.extra;
+            document.getElementById('nodeModal').classList.remove('hidden');
         }
+        function closeNodeModal() { document.getElementById('nodeModal').classList.add('hidden'); }
 
         function checkExamAnswers(e) {
             e.preventDefault();
-
             const q1 = document.getElementById('q1-ans').value.trim();
             const q2 = document.getElementById('q2-ans').value.trim();
             const q3 = document.getElementById('q3-ans').value.trim();
             const q4 = document.getElementById('q4-ans').value.trim();
-
             const feedback = document.getElementById('exam-feedback');
             feedback.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-emerald-100', 'text-emerald-800');
 
@@ -661,47 +667,18 @@
 
             if (score === 4) {
                 feedback.className += " bg-emerald-100 text-emerald-800 border border-emerald-300";
-                feedback.innerHTML = `🌟 <b>כל הכבוד! תשובה מושלמת (100%)!</b><br>ענית נכון על כל 4 הסעיפים בשאלת הבגרות!`;
-                xp += 100;
-                document.getElementById('xp-counter').innerText = xp;
-                addLog("תרגול הבגרות הושלם בהצלחה מלאה (+100 XP).");
+                feedback.innerHTML = `🌟 <b>תשובה מושלמת (100%)!</b> ענית נכון על כל 4 הסעיפים!`;
             } else {
                 feedback.className += " bg-red-100 text-red-800 border border-red-300";
-                feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות (${score}/4).</b><br>בדוק שוב את הסימולציה בשלב 2 ונסה שוב!`;
+                feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות (${score}/4).</b> נסה שוב!`;
             }
         }
 
-        function resetProgress() {
-            document.getElementById('btn-run-pkt1').disabled = false;
-            document.getElementById('btn-run-pkt2').disabled = true;
-            document.getElementById('moving-envelope').style.opacity = '0';
-            document.getElementById('sim-status-text').innerText = 'לחץ על "שגר חבילת נתונים 1" כדי להתחיל את המעקב האיטי.';
-            addLog("הסימולציה אופסה.");
-        }
-
-        // FLOATING BOT SCRIPT FIX
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('helpModal');
-            const openBtn = document.getElementById('openHelpModalBtn');
-            const closeBtn = document.getElementById('closeHelpModalBtn');
-
-            if(openBtn && modal && closeBtn) {
-                openBtn.onclick = function() {
-                    modal.classList.remove('hidden');
-                };
-
-                closeBtn.onclick = function() {
-                    modal.classList.add('hidden');
-                };
-
-                modal.onclick = function(e) {
-                    if (e.target === modal) {
-                        modal.classList.add('hidden');
-                    }
-                };
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            const m = document.getElementById('helpModal');
+            document.getElementById('openHelpModalBtn').onclick = () => m.classList.remove('hidden');
+            document.getElementById('closeHelpModalBtn').onclick = () => m.classList.add('hidden');
         });
     </script>
-
 </body>
 </html>
