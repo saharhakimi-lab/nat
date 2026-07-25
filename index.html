@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>שיעור 8: פרוטוקול NAT ותיעול כתובות | האקדמיה לרשתות</title>
+    <title>שיעור NAT המלא | האקדמיה לרשתות - הכנה לבגרות</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -11,146 +11,129 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             font-family: 'Heebo', sans-serif;
-            background-color: #0c0502; /* Deep Volcano Black/Orange */
-            background: linear-gradient(135deg, #0c0502 0%, #1c0a05 100%);
-            color: #f8fafc;
+            background-color: #FAF6EE;
+            color: #1e293b;
         }
         .code-font {
             font-family: 'JetBrains Mono', monospace;
         }
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0c0502;
+            background: #f1ece1;
         }
         ::-webkit-scrollbar-thumb {
-            background: #ea580c;
-            border-radius: 3px;
+            background: #d97706;
+            border-radius: 4px;
         }
-        @keyframes translate-flow {
-            0% { left: 15%; opacity: 1; background-color: #38bdf8; } /* Inside Local (Blue) */
-            45% { left: 47%; background-color: #38bdf8; }
-            50% { left: 50%; background-color: #f97316; } /* Translated to Global (Orange) */
-            100% { left: 85%; opacity: 1; background-color: #f97316; }
+
+        #moving-envelope {
+            transition: all 2.8s ease-in-out;
         }
-        .packet-translate {
-            animation: translate-flow 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+        .interactive-node {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        @keyframes translate-flow-reverse {
-            0% { left: 85%; opacity: 1; background-color: #f97316; }
-            45% { left: 53%; background-color: #f97316; }
-            50% { left: 50%; background-color: #38bdf8; }
-            100% { left: 15%; opacity: 1; background-color: #38bdf8; }
-        }
-        .packet-translate-reverse {
-            animation: translate-flow-reverse 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .interactive-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.3);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden border-t-8 border-amber-600">
 
     <!-- TOP BAR -->
-    <header class="border-b border-orange-950 bg-slate-950/90 backdrop-blur sticky top-0 z-50 px-4 py-3">
+    <header class="bg-amber-100/80 border-b border-amber-200 backdrop-blur sticky top-0 z-40 px-4 py-3 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
             <div class="flex items-center gap-3">
-                <div class="bg-orange-600/20 p-2 rounded-lg border border-orange-500/30 text-orange-400">
-                    <i data-lucide="shuffle" class="w-6 h-6"></i>
+                <div class="w-12 h-12 rounded-full border-2 border-amber-500 overflow-hidden bg-amber-200 flex-shrink-0 shadow-md">
+                    <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="Crazy Avatar Header" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <h1 class="font-black text-lg tracking-wide text-white">NET_ACADEMY // <span class="text-orange-500">CLASS_08</span></h1>
-                    <p class="text-xs text-slate-400">פרוטוקול NAT: איך אלף מחשבים גולשים דרך IP בודד?</p>
+                    <h1 class="font-black text-lg tracking-wide text-slate-900">NET_ACADEMY // <span class="text-amber-700">שיעור NAT המלא לבגרות</span></h1>
+                    <p class="text-xs text-slate-600">כל התיאוריה, הסוגים, הסימולציה והתרגול (תשפ"ו)</p>
                 </div>
             </div>
             
-            <!-- Gamification & Progress Status -->
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-full border border-slate-800">
-                    <span class="text-xs text-slate-400">רמה:</span>
-                    <span class="text-xs font-bold text-orange-400" id="user-level">מומחה Inter-VLAN</span>
-                    <div class="w-16 bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div id="level-bar" class="bg-orange-500 h-full w-4/5 transition-all duration-500"></div>
-                    </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-amber-200 shadow-sm">
+                    <span class="text-xs text-slate-500">סטטוס:</span>
+                    <span class="text-xs font-bold text-amber-700" id="user-level">מוכן לבחינה</span>
                 </div>
                 
-                <div class="flex items-center gap-2 bg-orange-950/40 border border-orange-500/30 px-3 py-1.5 rounded-lg text-orange-400">
-                    <i data-lucide="zap" class="w-4 h-4 text-yellow-400 animate-pulse"></i>
+                <div class="flex items-center gap-2 bg-amber-600 border border-amber-700 px-3.5 py-1.5 rounded-xl text-white shadow-sm">
+                    <i data-lucide="zap" class="w-4 h-4 text-yellow-300 fill-yellow-300"></i>
                     <span class="text-xs font-bold">XP:</span>
-                    <span class="text-sm font-black code-font text-orange-300" id="xp-counter">0</span>
+                    <span class="text-sm font-black code-font" id="xp-counter">100</span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- MAIN BODY -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <!-- SIDEBAR -->
         <aside class="lg:col-span-3 flex flex-col gap-4">
-            <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5">
-                <h3 class="text-sm font-bold text-slate-300 mb-4 tracking-wider uppercase border-b border-slate-800 pb-2">מפת המשימה</h3>
+            <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
+                <h3 class="text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase border-b border-amber-100 pb-2">תוכן השיעור</h3>
                 <nav class="flex flex-col gap-2">
-                    <!-- Step 1 -->
-                    <button id="btn-step-1" onclick="switchStep(1)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-orange-950/30 border border-orange-500/40 text-orange-300 transition-all font-bold">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">01.</span>
-                            <span>משבר מחסור הכתובות</span>
+                    <button id="btn-step-0" onclick="switchStep(0)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="code-font opacity-70">00.</span>
+                            <span>תיאוריית NAT מלאה</span>
                         </div>
-                        <i data-lucide="help-circle" class="w-4 h-4 text-orange-400"></i>
+                        <i data-lucide="book-open" class="w-4 h-4 text-amber-600"></i>
                     </button>
-                    <!-- Step 2 -->
-                    <button id="btn-step-2" onclick="switchStep(2)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">02.</span>
-                            <span>שפת ה-NAT (פנימי מול חיצוני)</span>
+
+                    <button id="btn-step-1" onclick="switchStep(1)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                        <div class="flex items-center gap-2">
+                            <span class="code-font opacity-70">01.</span>
+                            <span>נתוני שאלת הבגרות</span>
                         </div>
-                        <i data-lucide="book-open" class="w-4 h-4 opacity-50"></i>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-70"></i>
                     </button>
-                    <!-- Step 3 -->
-                    <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">03.</span>
-                            <span>סימולטור טבלת NAT</span>
+
+                    <button id="btn-step-2" onclick="switchStep(2)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                        <div class="flex items-center gap-2">
+                            <span class="code-font opacity-70">02.</span>
+                            <span>סימולציית תנועת מעטפה</span>
                         </div>
-                        <i data-lucide="cpu" class="w-4 h-4 opacity-50"></i>
+                        <i data-lucide="play-circle" class="w-4 h-4 opacity-70"></i>
                     </button>
-                    <!-- Step 4 -->
-                    <button id="btn-step-4" onclick="switchStep(4)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">04.</span>
-                            <span>חקירת משבר השרת (AI)</span>
+
+                    <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                        <div class="flex items-center gap-2">
+                            <span class="code-font opacity-70">03.</span>
+                            <span>תרגול לבגרות (מענה)</span>
                         </div>
-                        <i data-lucide="terminal" class="w-4 h-4 opacity-50"></i>
-                    </button>
-                    <!-- Step 5 -->
-                    <button id="btn-step-5" onclick="switchStep(5)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">05.</span>
-                            <span>דוח סיום והישגים</span>
-                        </div>
-                        <i data-lucide="award" class="w-4 h-4 opacity-50"></i>
+                        <i data-lucide="check-square" class="w-4 h-4 opacity-70"></i>
                     </button>
                 </nav>
             </div>
 
             <!-- SYSTEM LOG -->
-            <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5 flex-grow flex flex-col justify-between">
+            <div class="bg-white border border-amber-200/80 rounded-2xl p-5 flex-grow flex flex-col justify-between shadow-sm">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-400 tracking-wider mb-3">יומן תרגום (NAT Log)</h4>
-                    <div id="system-log" class="text-xs code-font text-orange-400/80 space-y-2 h-48 overflow-y-auto bg-slate-900/50 p-3 rounded border border-slate-800">
-                        <p>[10:45:01] שירות תרגום כתובות NAT מאותחל.</p>
-                        <p>[10:45:02] ממתין לחבילות קצה פנימיות...</p>
+                    <h4 class="text-xs font-bold text-slate-500 tracking-wider mb-2 flex items-center gap-1.5">
+                        <i data-lucide="activity" class="w-4 h-4 text-amber-600"></i>
+                        <span>יומן מעקב חבילות</span>
+                    </h4>
+                    <div id="system-log" class="text-[11px] code-font text-slate-700 space-y-1.5 h-44 overflow-y-auto bg-amber-50/50 p-3 rounded-xl border border-amber-200/60 dir-ltr">
+                        <p class="text-slate-500">[10:00:00] NAT Lesson System Loaded.</p>
                     </div>
                 </div>
-                <div class="mt-4 pt-4 border-t border-slate-800/50">
-                    <button onclick="resetProgress()" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-                        <span>אפס התקדמות שיעור</span>
+                <div class="mt-4 pt-3 border-t border-amber-100 flex justify-between items-center">
+                    <button onclick="resetProgress()" class="text-xs text-red-600 hover:text-red-800 flex items-center gap-1 font-semibold transition-colors">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                        <span>אפס סימולציה</span>
                     </button>
                 </div>
             </div>
@@ -159,900 +142,566 @@
         <!-- CONTENT DISPLAY AREA -->
         <section class="lg:col-span-9 flex flex-col gap-6">
 
-            <!-- STEP 1: THE ADDRESS CRISIS -->
-            <div id="step-1" class="step-container space-y-6">
-                <div class="bg-gradient-to-r from-orange-950/40 to-slate-950 border border-orange-900/40 rounded-2xl p-6 md:p-8 relative overflow-hidden">
-                    <div class="absolute -right-20 -top-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                    <span class="bg-orange-900/60 border border-orange-400/30 text-orange-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">משבר עולמי חריף</span>
-                    
-                    <h2 class="text-2xl md:text-3xl font-black text-white mt-4 mb-3">איך נגמרו הכתובות של האינטרנט?</h2>
-                    <p class="text-slate-300 leading-relaxed text-base">
-                        כאשר המציאו את פרוטוקול IPv4 בשנות ה-80, החוקרים חשבו ש-**4.2 מיליארד כתובות IP** יספיקו לנצח. הם לא דמיינו שבעתיד לכל אדם יהיה טלפון, מחשב, שעון חכם וטלוויזיה שמחוברים לרשת בו-זמנית.
-                        <br><br>
-                        בשנות ה-90 נוצר פחד אמיתי שהאינטרנט יקרוס מחוסר כתובות פנויות. כדי להציל את העולם, המציאו את ה-**NAT (Network Address Translation)**. הרעיון הוא פשוט: מחלקים את עולם הכתובות לשתי קבוצות מובחנות.
-                    </p>
+            <!-- STEP 0: FULL THEORY ON NAT -->
+            <div id="step-0" class="step-container space-y-5">
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm space-y-5">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">מבוא תיאורטי - תקשורת מחשבים</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">מהו NAT? (Network Address Translation)</h2>
+                        <p class="text-slate-700 leading-relaxed text-sm mt-1">
+                            מנגנון <strong>NAT</strong> תוכנן במקור כדי לפתור את בעיית מחסור הכתובות בפרוטוקול IPv4. המטרה: לאפשר לרשתות פרטיות פנימיות לגלוש ברשת האינטרנט הציבורית תוך שימוש בכתובת IP ציבורית אחת בלבד (או מספר מועט של כתובות ציבוריות).
+                        </p>
+                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <h3 class="text-sky-400 font-bold mb-2 flex items-center gap-2">
-                                <i data-lucide="home" class="w-5 h-5"></i>
-                                כתובות פרטיות (Private IPs)
-                            </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                כתובות לשימוש פנימי בלבד (כמו `192.168.x.x`). הן בחינם, וכל אחד בעולם יכול להשתמש בהן בתוך הבית שלו. אך יש חוק ברזל אחד: **אסור להן לגלוש באינטרנט הציבורי ישירות!** נתבי האינטרנט יזרקו אותן מיד לפח.
+                    <!-- 3 NAT TYPES GRID -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-amber-900 text-sm block">1. NAT סטטי (Static NAT)</span>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                מיפוי קבוע של 1:1 בין כתובת פרטית פנימית לכתובת ציבורית חיצונית. משמש בעיקר לפרסום שרתים פנימיים (כמו שרת דואר/אינטרנט) לרשת החיצונית.
                             </p>
                         </div>
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <h3 class="text-orange-400 font-bold mb-2 flex items-center gap-2">
-                                <i data-lucide="globe" class="w-5 h-5"></i>
-                                כתובות ציבוריות (Public IPs)
-                            </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                כתובות ייחודיות ורשמיות שנקנות מספק האינטרנט (ISP). רק הן מורשות לנסוע בכבישים המהירים של הרשת הגלובלית. הנתב הביתי שלכם מחזיק בכתובת כזו ומתרגם עבורכם את כל התנועה החוצה.
+
+                        <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-amber-900 text-sm block">2. NAT דינמי (Dynamic NAT)</span>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                המרת כתובת פרטית מתוך בריכת כתובות (Pool) ציבוריות זמינות. המיפוי אינו קבוע, אלא מתבצע על בסיס "כל הקודם זוכה" בזמן הפנייה.
+                            </p>
+                        </div>
+
+                        <div class="bg-amber-600 text-white p-4 rounded-xl space-y-2 shadow-sm">
+                            <span class="font-bold text-yellow-200 text-sm block">3. NAT Overload / PAT ★</span>
+                            <p class="text-xs text-amber-50 leading-relaxed">
+                                (Port Address Translation) - השיטה הנפוצה ביותר בציוד ביתי וארגוני. מאפשרת לריבוי מחשבים מוצפנים לשתף כתובת ציבורית יחידה על ידי הבחנה במספרי פורטים (Port Numbers).
                             </p>
                         </div>
                     </div>
 
-                    <div class="mt-6 bg-slate-900/50 p-5 rounded-xl border border-slate-800/80">
-                        <p class="text-xs text-slate-300 font-bold mb-3">אנלוגיית המלון: מה דומה לפעולת ה-NAT בחיי היום-יום?</p>
-                        <div class="flex flex-col gap-2">
-                            <button onclick="answerScenario(1)" class="bg-slate-950 hover:bg-slate-800 text-right border border-slate-700 text-slate-300 text-xs px-4 py-2.5 rounded transition-all">מכתב שנשלח לאורח במלון. הדוור שולח את המכתב לכתובת המלון הרשמית (Public), ופקיד הקבלה (NAT) מתרגם ומעביר את זה לחדר 304 הפנימי (Private).</button>
-                            <button onclick="answerScenario(2)" class="bg-slate-950 hover:bg-slate-800 text-right border border-slate-700 text-slate-300 text-xs px-4 py-2.5 rounded transition-all">מערכת כריזה שקוראת לכל האורחים בו-זמנית לבוא ללובי לאכול ארוחת בוקר.</button>
+                    <!-- TERMINOLOGY TABLE -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700">מושגי יסוד ב-NAT לקראת הבחינה:</div>
+                        <div class="divide-y divide-slate-100 text-xs">
+                            <div class="p-3 flex justify-between gap-4"><span class="font-bold text-slate-800 w-1/3">Inside Local:</span><span class="text-slate-600 w-2/3">הכתובת הפרטית של התחנה ברשת הפנימית (למשל 172.16.1.100)</span></div>
+                            <div class="p-3 flex justify-between gap-4 bg-slate-50/50"><span class="font-bold text-slate-800 w-1/3">Inside Global:</span><span class="text-slate-600 w-2/3">הכתובת הציבורית שמייצגת את הרשת הפנימית בחוץ (למשל 100.2.3.2)</span></div>
+                            <div class="p-3 flex justify-between gap-4"><span class="font-bold text-slate-800 w-1/3">Outside Local/Global:</span><span class="text-slate-600 w-2/3">כתובת ה-IP הציבורית של היעד החיצוני (למשל 8.8.8.5)</span></div>
                         </div>
-                        <div id="scenario-feedback" class="mt-4 hidden p-3 rounded-lg text-xs font-semibold"></div>
+                    </div>
+
+                    <!-- PROS & CONS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <span class="font-bold text-emerald-800 block mb-1">✔ יתרונות NAT:</span>
+                            <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                <li>חיסכון עצום בכתובות IPv4 ציבוריות.</li>
+                                <li>אבטחה היקפית (הרשת הפנימית מוסתרת מעיני האינטרנט).</li>
+                                <li>גמישות בשינוי ספק אינטרנט ללא שינוי הכתובות הפנימיות.</li>
+                            </ul>
+                        </div>
+                        <div class="p-3.5 bg-red-50 border border-red-200 rounded-xl">
+                            <span class="font-bold text-red-800 block mb-1">✖ חסרונות NAT:</span>
+                            <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                <li>פגיעה ברציפות מקצה לקצה (End-to-End Connectivity).</li>
+                                <li>עיכוב קל בתקשורת (Latency) עקב עיבוד החבילות בנתב.</li>
+                                <li>קושי בהרצת פריצות דרך (כמו VoIP או Peer-to-Peer).</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="flex justify-end">
-                    <button onclick="switchStep(2)" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <span>למד את מונחי ה-NAT</span>
+                    <button onclick="switchStep(1)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-md">
+                        <span>המשך לשאלת הבגרות</span>
                         <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 2: THE TERMINOLOGY -->
-            <div id="step-2" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800/80 rounded-2xl p-6 md:p-8">
-                    <span class="text-orange-400 text-xs font-bold uppercase tracking-wider">מילון המונחים הרשמי</span>
-                    <h2 class="text-2xl font-black text-white mt-2 mb-4">Inside Local לעומת Outside Global: בוא נעשה סדר!</h2>
+            <!-- STEP 1: QUESTION OVERVIEW -->
+            <div id="step-1" class="step-container space-y-5 hidden">
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm">
+                    <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">שאלת בגרות - מערכות תקשורת</span>
                     
-                    <p class="text-slate-300 leading-relaxed mb-6">
-                        כאשר נתב סיסקו מבצע תרגום NAT, הוא משתמש בארבעה מונחים קריטיים כדי לתאר את הכתובות בטבלה שלו. אל תיבהל מהמילים – זה הרבה יותר פשוט ממה שזה נשמע:
+                    <h2 class="text-2xl font-black text-slate-900 mt-3 mb-2">תרגום כתובות בטופולוגיה ביתית (NAT Overload)</h2>
+                    <p class="text-slate-700 leading-relaxed text-sm">
+                        בטופולוגיה שלפניכם נעשה שימוש ב-<strong>NAT Overload</strong> על גבי הממשקים של הנתב <strong>Home_Router</strong>.
+                        <br>
+                        הממשקים מוגדרים כדלקמן:
                     </p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <div class="flex items-center gap-2.5 mb-2">
-                                <span class="bg-sky-500/20 text-sky-400 px-2.5 py-0.5 rounded text-xs font-mono font-bold">Inside Local</span>
-                            </div>
-                            <h3 class="text-white font-bold text-sm mb-1">הכתובת הפרטית של המחשב שלך</h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                כתובת ה-IP הפנימית שהמחשב שלך קיבל בתוך הבית (למשל `192.168.1.15`). אף אחד באינטרנט הציבורי לא יכול לראות אותה.
-                            </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+                        <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl">
+                            <span class="text-xs font-bold text-amber-800 block mb-1">נתב Home_Router</span>
+                            <ul class="text-xs text-slate-700 space-y-1 font-mono">
+                                <li>• Fa0/0: <span class="font-bold text-emerald-700">NAT Inside</span> (172.16.1.1/24)</li>
+                                <li>• Fa1/0: <span class="font-bold text-sky-700">NAT Outside</span> (100.2.3.2/24)</li>
+                            </ul>
                         </div>
 
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <div class="flex items-center gap-2.5 mb-2">
-                                <span class="bg-orange-500/20 text-orange-400 px-2.5 py-0.5 rounded text-xs font-mono font-bold">Inside Global</span>
-                            </div>
-                            <h3 class="text-white font-bold text-sm mb-1">הכתובת הציבורית של הנתב שלך</h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                הכתובת הציבורית והרשמית שהראוטר מציג לעולם כשהוא שולח חבילות בשמך (למשל `82.80.1.1`). זהו "המסיכה" הציבורית שלך ברשת.
-                            </p>
+                        <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl">
+                            <span class="text-xs font-bold text-emerald-800 block mb-1">רשת פנימית (LAN)</span>
+                            <ul class="text-xs text-slate-700 space-y-1 font-mono">
+                                <li>• PC0: 172.16.1.200/24</li>
+                                <li>• PC1: 172.16.1.100/24</li>
+                                <li>• Switch0: מחיבור Fa0/0 לנתב</li>
+                            </ul>
                         </div>
 
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <div class="flex items-center gap-2.5 mb-2">
-                                <span class="bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded text-xs font-mono font-bold">Outside Global</span>
-                            </div>
-                            <h3 class="text-white font-bold text-sm mb-1">הכתובת הציבורית של היעד</h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                כתובת ה-IP הציבורית של השרת אליו אתה מנסה לגשת באינטרנט (למשל שרת DNS של גוגל בכתובת `8.8.8.8`).
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                            <div class="flex items-center gap-2.5 mb-2">
-                                <span class="bg-purple-500/20 text-purple-400 px-2.5 py-0.5 rounded text-xs font-mono font-bold">Port Address Translation (PAT)</span>
-                            </div>
-                            <h3 class="text-white font-bold text-sm mb-1">תרגום פורטים (הטריק הגדול)</h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                כדי שהראוטר ידע להחזיר את התשובה למחשב הנכון בבית, הוא מצמיד מספר פורט (Port) ייחודי לכל שיחה פנימית. כך, שיחה מ-PC A תתורגם ל-`82.80.1.1:5001` ושיחה מ-PC B תתורגם ל-`82.80.1.1:5002`.
-                            </p>
+                        <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl">
+                            <span class="text-xs font-bold text-sky-800 block mb-1">שרת אינטרנט חיצוני</span>
+                            <ul class="text-xs text-slate-700 space-y-1 font-mono">
+                                <li>• שם: www.mynet.com</li>
+                                <li>• IP: 8.8.8.5/24</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Visual flow diagram box -->
-                    <div class="bg-orange-950/20 border border-orange-900/35 p-5 rounded-xl mt-6">
-                        <h4 class="text-white font-bold text-sm mb-1">למה זה מעולה לאבטחה?</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            בזכות ה-NAT, אף תוקף או האקר באינטרנט הציבורי לא יכול ליזום תקשורת ישירה עם המחשב הפנימי שלך, מכיוון שהכתובת הפנימית שלו פשוט מוסתרת לחלוטין מאחורי הראוטר. ה-NAT משמש כחומת אש (Firewall) טבעית!
+                    <div class="mt-5 p-4 bg-amber-100/60 border border-amber-300 rounded-xl text-xs text-slate-800 flex items-start gap-3">
+                        <i data-lucide="info" class="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5"></i>
+                        <p class="leading-relaxed">
+                            <strong>סיפור האירוע:</strong> מחשב <strong>PC1</strong> מתקשר עם שרת האינטרנט <code>www.mynet.com</code> ומקבל ממנו את שתי חבילות הנתונים המופיעות בטופולוגיה. שימו לב לכיוון זרימת החבילות מראש!
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="flex justify-between">
-                    <button onclick="switchStep(1)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה למבוא</span>
+                    <button onclick="switchStep(0)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <span>חזרה לתיאוריה</span>
                     </button>
-                    <button onclick="switchStep(3)" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <span>לסימולטור טבלת NAT</span>
+                    <button onclick="switchStep(2)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-md">
+                        <span>עבור לסימולציית המעטפה</span>
                         <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 3: INTERACTIVE NAT SIMULATOR -->
-            <div id="step-3" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <span class="bg-orange-900/60 border border-orange-400/30 text-orange-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">תחנת עבודה מעשית</span>
-                    <h2 class="text-2xl font-black text-white mt-3">סימולטור: מנוע תרגום הכתובות המהיר</h2>
-                    <p class="text-slate-400 text-sm mt-1">
-                        שגר חבילה מ-PC A הפנימי אל שרת גוגל החיצוני, וראה כיצד הנתב משנה את כתובת המקור ומתעד את התרגום בטבלת ה-NAT שלו בזמן אמת!
-                    </p>
+            <!-- STEP 2: ANIMATED ENVELOPE SIMULATION -->
+            <div id="step-2" class="step-container space-y-5 hidden">
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="flex justify-between items-center flex-wrap gap-2 mb-3">
+                        <div>
+                            <h2 class="text-xl font-black text-slate-900">סימולטור דינמי: תנועת מעטפות הנתונים</h2>
+                            <p class="text-xs text-slate-600">לחץ על הלחצנים למטה כדי לשגר את חבילת הנתונים, ולחץ על הציוד בטופולוגיה כדי לחקור את הגדרותיו.</p>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full">לחץ על כל רכיב בציור לקבלת פרטים</span>
+                    </div>
 
-                    <!-- The Playground Container -->
-                    <div class="mt-8 bg-slate-900 rounded-xl p-6 border border-slate-800 relative min-h-[300px] flex flex-col justify-between overflow-hidden">
+                    <!-- SIMULATION CANVAS CONTAINER -->
+                    <div id="sim-canvas" class="relative bg-gradient-to-b from-amber-50/60 to-orange-50/30 border border-amber-200 rounded-2xl p-6 min-h-[480px] overflow-hidden select-none">
                         
-                        <!-- Topology Display -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 my-auto items-center text-center">
-                            <!-- Inside Network (Private) -->
-                            <div class="flex flex-col items-center gap-1.5">
-                                <div id="node-pc-a" class="w-20 h-20 bg-slate-950 border-2 border-sky-500 rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-105 shadow-lg">
-                                    <i data-lucide="monitor" class="w-8 h-8 text-sky-400"></i>
-                                    <span class="text-[10px] font-bold mt-1 text-slate-300">PC A (פנימי)</span>
-                                </div>
-                                <span class="text-[10px] text-sky-400 font-mono">Inside Local:<br>192.168.1.15:5001</span>
-                            </div>
+                        <!-- SERVER -->
+                        <div id="node-server" onclick="showNodeInfo('server')" class="interactive-node absolute top-6 right-8 bg-white border-2 border-sky-500 rounded-xl p-3 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
+                            <i data-lucide="server" class="w-8 h-8 text-sky-600 mb-1"></i>
+                            <span class="text-xs font-bold text-slate-800">www.mynet.com</span>
+                            <span class="text-[10px] font-mono text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded mt-1">8.8.8.5/24</span>
+                        </div>
 
-                            <!-- NAT Router (Boundary) -->
-                            <div class="flex flex-col items-center justify-center">
-                                <div id="node-nat-router" class="w-24 h-24 bg-slate-950 border-2 border-orange-500 rounded-full flex flex-col items-center justify-center shadow-lg relative">
-                                    <i data-lucide="shuffle" class="w-10 h-10 text-orange-400 animate-pulse"></i>
-                                    <span class="text-[10px] font-bold mt-1 text-slate-300">NAT Router</span>
-                                </div>
-                                <span class="text-[9px] text-orange-400 font-mono mt-1">Inside Global: 82.80.1.1</span>
-                            </div>
-
-                            <!-- Outside Network (Public) -->
-                            <div class="flex flex-col items-center gap-1.5">
-                                <div id="node-server-google" class="w-20 h-20 bg-slate-950 border-2 border-emerald-500 rounded-xl flex flex-col items-center justify-center shadow-lg">
-                                    <i data-lucide="globe" class="w-8 h-8 text-emerald-400"></i>
-                                    <span class="text-[10px] font-bold mt-1 text-slate-300">Google Server</span>
-                                </div>
-                                <span class="text-[10px] text-emerald-400 font-mono">Outside Global:<br>8.8.8.8:80</span>
+                        <!-- ROUTER -->
+                        <div id="node-router" onclick="showNodeInfo('router')" class="interactive-node absolute top-6 left-1/3 bg-white border-2 border-amber-500 rounded-xl p-3 flex flex-col items-center w-40 text-center cursor-pointer shadow-md">
+                            <i data-lucide="router" class="w-9 h-9 text-amber-600 mb-1"></i>
+                            <span class="text-xs font-bold text-slate-800">Home_Router</span>
+                            <div class="text-[9px] font-mono text-slate-600 mt-1 space-y-0.5">
+                                <p class="text-sky-700 font-bold">Fa1/0 (Outside): 100.2.3.2</p>
+                                <p class="text-emerald-700 font-bold">Fa0/0 (Inside): 172.16.1.1</p>
                             </div>
                         </div>
 
-                        <!-- Active packet dot -->
-                        <div id="packet-flow-dot" class="absolute w-4 h-4 bg-sky-400 rounded-full shadow-lg shadow-sky-500/50 hidden z-20"></div>
+                        <!-- SWITCH -->
+                        <div id="node-switch" onclick="showNodeInfo('switch')" class="interactive-node absolute top-52 left-1/3 bg-white border-2 border-slate-400 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
+                            <i data-lucide="network" class="w-7 h-7 text-slate-600 mb-1"></i>
+                            <span class="text-xs font-bold text-slate-800">Switch0</span>
+                            <span class="text-[10px] text-slate-500 font-mono">Fa0/0 to Router</span>
+                        </div>
 
-                        <!-- Test Action Bar -->
-                        <div class="border-t border-slate-800 pt-4 mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-950 p-2.5 rounded-lg">
-                            <div class="text-xs text-slate-400 text-center sm:text-right">
-                                <p class="font-bold text-white mb-0.5">פעולת שיגור חבילת NAT:</p>
-                                <p>שגר בקשת דף אינטרנט מגוגל. שים לב כיצד צבע החבילה משתנה מכחול (פרטי) לכתום (ציבורי) ברגע המעבר בנתב!</p>
+                        <!-- PC0 -->
+                        <div id="node-pc0" onclick="showNodeInfo('pc0')" class="interactive-node absolute bottom-6 left-10 bg-white border-2 border-slate-300 rounded-xl p-2.5 flex flex-col items-center w-32 text-center cursor-pointer shadow-md">
+                            <i data-lucide="monitor" class="w-7 h-7 text-slate-500 mb-1"></i>
+                            <span class="text-xs font-bold text-slate-800">PC0</span>
+                            <span class="text-[10px] font-mono text-slate-600">172.16.1.200</span>
+                        </div>
+
+                        <!-- PC1 -->
+                        <div id="node-pc1" onclick="showNodeInfo('pc1')" class="interactive-node absolute bottom-6 left-1/2 bg-white border-2 border-emerald-500 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
+                            <i data-lucide="laptop" class="w-7 h-7 text-emerald-600 mb-1"></i>
+                            <span class="text-xs font-bold text-slate-800">PC1 (היעד)</span>
+                            <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-0.5">172.16.1.100</span>
+                        </div>
+
+                        <!-- SVG CONNECTIONS LINES -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none stroke-slate-400 stroke-2" style="z-index: 1;">
+                            <line x1="80%" y1="12%" x2="48%" y2="12%" stroke-dasharray="4" />
+                            <line x1="40%" y1="18%" x2="40%" y2="45%" />
+                            <line x1="38%" y1="58%" x2="16%" y2="82%" />
+                            <line x1="42%" y1="58%" x2="52%" y2="82%" />
+                        </svg>
+
+                        <!-- MOVING DETAILED ENVELOPE CARD -->
+                        <div id="moving-envelope" class="absolute z-20 bg-white border-2 border-amber-600 rounded-xl p-2.5 shadow-xl w-52 opacity-0 pointer-events-none transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="flex items-center justify-between border-b border-amber-100 pb-1 mb-1">
+                                <span id="env-title" class="text-[10px] font-bold text-amber-800">חבילת נתונים</span>
+                                <i data-lucide="mail" class="w-4 h-4 text-amber-600"></i>
                             </div>
-                            <button id="btn-trigger-nat" onclick="startNatSimulation()" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 w-full sm:w-auto">
-                                <i data-lucide="send" class="w-4 h-4"></i>
-                                <span>שגר חבילה דרך ה-NAT</span>
+                            <div class="space-y-0.5 font-mono text-[10px]">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Source (מקור):</span>
+                                    <span id="env-src" class="font-bold text-amber-700">8.8.8.5</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Dest (יעד):</span>
+                                    <span id="env-dst" class="font-bold text-sky-700">100.2.3.2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- CONTROL PANEL -->
+                    <div class="mt-4 flex flex-wrap items-center justify-between gap-3 bg-amber-50/80 p-3.5 rounded-xl border border-amber-200">
+                        <div class="text-xs text-slate-700">
+                            <span class="font-bold block">הפעלת הדגמת הזרימה:</span>
+                            <span>צפה בחבילה 1 (לפני הנתב) ובחבילה 2 (לאחר תרגום ה-NAT בנתב)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button id="btn-run-pkt1" onclick="simulatePacket(1)" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                <span>שגר חבילת נתונים 1</span>
+                            </button>
+                            <button id="btn-run-pkt2" onclick="simulatePacket(2)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm disabled:opacity-40" disabled>
+                                <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
+                                <span>שגר חבילת נתונים 2</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Dynamic NAT Translation Table Display -->
-                    <div class="mt-6 bg-slate-900 rounded-xl p-4 border border-slate-800">
-                        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                            <i data-lucide="table" class="w-4 h-4 text-orange-400"></i>
-                            NAT Translation Table (טבלת תרגום פעילה)
-                        </h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-right text-xs">
-                                <thead>
-                                    <tr class="border-b border-slate-800 text-slate-500">
-                                        <th class="pb-2">פרוטוקול (Pro)</th>
-                                        <th class="pb-2">כתובת פנימית מקורית (Inside Local)</th>
-                                        <th class="pb-2">כתובת מתורגמת החוצה (Inside Global)</th>
-                                        <th class="pb-2">כתובת היעד (Outside Global)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="nat-table-body" class="font-mono text-slate-400">
-                                    <tr id="empty-table-row">
-                                        <td colspan="4" class="py-4 text-center text-slate-600 italic">הטבלה ריקה כרגע. לא בוצע אף תרגום כתובות בנתב.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <!-- DYNAMIC SIMULATION STEP DESCRIPTION -->
+                    <div id="sim-status-box" class="mt-3 p-3.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-amber-600"></i>
+                        <span id="sim-status-text">לחץ על "שגר חבילת נתונים 1" כדי להתחיל את המעקב האיטי.</span>
                     </div>
 
-                    <div id="sim-feedback" class="mt-4 hidden p-4 rounded-xl text-xs font-bold"></div>
                 </div>
 
                 <div class="flex justify-between">
-                    <button onclick="switchStep(2)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה להסבר</span>
+                    <button onclick="switchStep(1)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <span>חזרה לנתונים</span>
                     </button>
-                    <button id="btn-to-step-4" onclick="switchStep(4)" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all disabled:opacity-40 disabled:pointer-events-none" disabled>
-                        <span>המשך לחקירת משבר השרת</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <button id="btn-to-step-3" onclick="switchStep(3)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs shadow-md">
+                        <span>עבור לפתרון שאלת הבגרות</span>
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 4: AI TROUBLESHOOTING BOSS CHALLENGE (AI STEP) -->
-            <div id="step-4" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <div class="flex justify-between items-start flex-wrap gap-4 border-b border-slate-800 pb-4">
-                        <div>
-                            <span class="bg-red-950 border border-red-500/30 text-red-400 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">אתגר פתרון תקלות AI</span>
-                            <h2 class="text-2xl font-black text-white mt-3">לחקור את רונן: משבר שרת האינטרנט</h2>
-                            <p class="text-slate-400 text-sm mt-1">
-                                רונן, מנהל התשתיות העצבני של הארגון, הגדיר שרת אינטרנט פנימי, אבל אף לקוח באינטרנט הציבורי לא מצליח להגיע אליו. חקור אותו כדי למצוא את התקלה!
-                            </p>
-                        </div>
-                        <div class="bg-slate-900/80 border border-slate-800 px-3 py-1 rounded text-xs text-orange-400 code-font flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-                            <span>STATUS: OUTSIDE_PORT_BLOCKED</span>
-                        </div>
+            <!-- STEP 3: EXAM QUESTIONS PRACTICE -->
+            <div id="step-3" class="step-container space-y-5 hidden">
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm">
+                    <div class="border-b border-amber-100 pb-3 mb-4">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">משימת סיכום לבגרות</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">השלמת הסעיפים מתוך שאלת המבחן</h2>
+                        <p class="text-xs text-slate-600">השלם את הכתובות החסרות בהתאם לזרימת החבילות שראית בסימולציה:</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-6">
-                        <!-- Left: Junior IT Admin info -->
-                        <div class="md:col-span-4 bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4 text-center">
-                            <div class="w-20 h-20 bg-red-900/20 border-2 border-red-500 rounded-full flex items-center justify-center mx-auto text-3xl animate-bounce">
-                                👨‍💼
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-white text-sm">רונן (מנהל תשתיות בכיר)</h3>
-                                <p class="text-[11px] text-slate-400 mt-1">"אני בטוח במיליון אחוז שכתבתי את חוק ה-Static NAT נכון בראוטר! בדקתי את זה שוב ושוב!"</p>
-                            </div>
-                            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-right space-y-1.5 text-xs">
-                                <span class="text-[10px] text-slate-500 block font-bold">רמזים לחקירה:</span>
-                                <p class="text-[11px] text-slate-400">💡 שאל אותו אם הוא הגדיר את כיווני ה-NAT על הפורטים הפיזיים: **ip nat inside** ו-**ip nat outside**.</p>
-                                <p class="text-[11px] text-slate-400">💡 בדוק איזה פורט פיזי פונה פנימה לארגון ואיזה פורט מחובר לספק האינטרנט החיצוני.</p>
-                            </div>
+                    <form id="exam-form" onsubmit="checkExamAnswers(event)" class="space-y-4 text-xs">
+                        
+                        <!-- Question 1 -->
+                        <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
+                            <label class="font-bold text-slate-800 block mb-2">1. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 1" היא:</label>
+                            <input type="text" id="q1-ans" placeholder="למשל: 100.2.3.2" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
 
-                        <!-- Right: Troubleshooting Chat Area -->
-                        <div class="md:col-span-8 bg-slate-900 border border-slate-800 rounded-xl flex flex-col h-[380px] overflow-hidden">
-                            <!-- Messages -->
-                            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3 flex flex-col">
-                                <!-- Bot greeting -->
-                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-300">
-                                    <span class="text-[10px] font-bold text-red-400 block mb-1">RONEN_NET_MANAGER // </span>
-                                    תקשיב, המצב פה על הפנים. הקמנו שרת אינטרנט פנימי בכתובת <code>192.168.1.100</code>.
-                                    כתבתי בראוטר את פקודת ה-Static NAT הבאה:
-                                    <code class="block text-left text-orange-400 font-mono text-[10px] bg-black p-1.5 rounded my-1" dir="ltr">ip nat inside source static 192.168.1.100 82.80.1.100</code>
-                                    זה אמור לתרגם את השרת לכתובת הציבורית <code>82.80.1.100</code>. אבל אנשים מבחוץ פשוט מקבלים שגיאת Timeout ולא מצליחים להיכנס!
-                                    <br><br>
-                                    מה לדעתך שכחתי להגדיר? תשאל אותי שאלות על הגדרות הממשקים שלי ואני אבדוק לך מיד!
-                                </div>
-                            </div>
-                            
-                            <!-- Input -->
-                            <div class="p-3 border-t border-slate-800 bg-slate-950 flex gap-2">
-                                <input type="text" id="chat-input" onkeypress="handleChatKey(event)" placeholder="שאל את רונן (למשל: 'האם רשמת ip nat inside על הפורט הפנימי?')..." class="flex-grow bg-slate-900 text-white border border-slate-800 rounded-lg px-4 py-2 text-xs focus:outline-none focus:border-orange-500">
-                                <button onclick="sendChatMessage()" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all">
-                                    <i data-lucide="send" class="w-4 h-4"></i>
-                                </button>
-                            </div>
+                        <!-- Question 2 -->
+                        <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
+                            <label class="font-bold text-slate-800 block mb-2">2. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 1" היא:</label>
+                            <input type="text" id="q2-ans" placeholder="למשל: 8.8.8.5" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
-                    </div>
 
-                    <!-- Achievement Unlock Alert -->
-                    <div id="ai-bonus-alert" class="mt-4 hidden bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">🏆</span>
-                            <div>
-                                <p class="font-bold">הישג נפתח! מומחה תרגום כתובות (NAT Wizard)</p>
-                                <p class="text-xs opacity-80">חקרת ופתרת את התקלה הקריטית בהגדרת ממשקי ה-NAT בנתב הארגוני.</p>
-                            </div>
+                        <!-- Question 3 -->
+                        <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
+                            <label class="font-bold text-slate-800 block mb-2">3. כתובת ה-IP של היעד (Destination) המופיעה ב-"חבילת נתונים 2" היא:</label>
+                            <input type="text" id="q3-ans" placeholder="למשל: 172.16.1.100" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
                         </div>
-                        <span class="font-mono text-xs text-orange-400 font-bold">+100 XP</span>
-                    </div>
 
+                        <!-- Question 4 -->
+                        <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
+                            <label class="font-bold text-slate-800 block mb-2">4. כתובת ה-IP של המקור (Source) המופיעה ב-"חבילת נתונים 2" היא:</label>
+                            <input type="text" id="q4-ans" placeholder="למשל: 8.8.8.5" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600">
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md flex items-center gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                <span>בדוק תשובות וקבל ניקוד</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Feedback Alert -->
+                    <div id="exam-feedback" class="mt-4 hidden p-4 rounded-xl text-xs font-bold"></div>
                 </div>
-                <div class="flex justify-between">
-                    <button onclick="switchStep(3)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה לסימולטור</span>
+
+                <div class="flex justify-start">
+                    <button onclick="switchStep(2)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <span>חזרה לסימולציה</span>
                     </button>
-                    <button id="btn-to-step-5" onclick="switchStep(5)" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all disabled:opacity-40 disabled:pointer-events-none" disabled>
-                        <span>המשך לסיכום והישגים</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 5: REFLECTION & TEAMWORK -->
-            <div id="step-5" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <span class="text-orange-400 text-xs font-bold uppercase tracking-wider">משוב עמיתים וסגירת דוח</span>
-                    <h2 class="text-2xl font-black text-white mt-2 mb-4">תעודת מהנדס ה-NAT שלך מוכנה!</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Reflection Form -->
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
-                            <h3 class="font-bold text-white text-base">רפלקציה עצמית למורה</h3>
-                            <p class="text-xs text-slate-400">השלם את המחשבות שלך על השיעור והמידע הזה יישלח למורה שלך בקליק.</p>
-                            
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-xs text-slate-300 mb-1">1. מדוע לדעתך מנוע ה-NAT חייב להכיר את כיוון הממשקים (inside לעומת outside) בשביל לתרגם בהצלחה?</label>
-                                    <textarea id="reflection-q1" class="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white focus:outline-none focus:border-orange-500" rows="2" placeholder="הסבר במילים שלך..."></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-xs text-slate-300 mb-1">2. כיצד טכנולוגיית PAT (תרגום פורטים) מאפשרת למספר מחשבים שונים לחלוק כתובת IP ציבורית אחת?</label>
-                                    <textarea id="reflection-q2" class="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white focus:outline-none focus:border-orange-500" rows="2" placeholder="הסבר בקצרה..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Share card and report exports -->
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-white text-base mb-2">שתף הצלחה עם החברים</h3>
-                                <p class="text-xs text-slate-400 mb-4">העתק את קוד ההישג שלך ושתף אותו בקבוצת הוואטסאפ הכיתתית כדי להשוות תוצאות תרגום!</p>
-                                
-                                <div class="bg-slate-950 p-3 rounded border border-slate-800 code-font text-xs flex justify-between items-center text-orange-400">
-                                    <span id="share-code">NET-ACAD-CLASS8-PENDING</span>
-                                    <button onclick="copyShareCode()" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1">
-                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                        <span>העתק</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="mt-6 pt-6 border-t border-slate-800/80 space-y-3">
-                                <button onclick="exportTeacherReport()" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-2.5 rounded-lg text-sm transition-all flex items-center justify-center gap-2">
-                                    <i data-lucide="download" class="w-4 h-4"></i>
-                                    <span>ייצא דוח מסכם למורה</span>
-                                </button>
-                                <p class="text-[10px] text-slate-400 text-center">בלחיצה כאן יורד קובץ טקסט פשוט שמכיל את התשובות שלך, שאותו תוכל לשלוח למורה.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-slate-900 bg-slate-950 py-4 px-4 text-center">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-            <p>© 2026 NET_ACADEMY - הדרך שלך לרשתות ותקשורת מחשבים</p>
-            <div class="flex gap-4">
-                <span>שיעור 8 מתוך 10</span>
-                <span>•</span>
-                <span class="text-orange-400 font-bold">RTL תומך באופן מלא</span>
-            </div>
+    <!-- COMPONENT DETAILS MODAL -->
+    <div id="nodeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border border-amber-200 rounded-2xl p-6 max-w-md w-full shadow-2xl relative">
+            <button onclick="closeNodeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 id="modal-title" class="text-lg font-black text-slate-900 mb-1"></h3>
+            <span id="modal-subtitle" class="text-xs font-mono text-amber-700 block mb-3"></span>
+            <p id="modal-desc" class="text-xs text-slate-600 leading-relaxed mb-4"></p>
+            <div id="modal-extra" class="p-3 bg-amber-50 rounded-xl text-xs font-mono text-slate-700 border border-amber-200"></div>
         </div>
-    </footer>
-
-    <!-- Notification system toast -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-orange-500 text-white px-4 py-3 rounded-xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
-        <i data-lucide="info" class="w-5 h-5 text-orange-400" id="toast-icon"></i>
-        <span id="toast-message" class="text-sm"></span>
     </div>
+
+    <!-- FLOATING BOT BUTTON (FIXED Z-INDEX) -->
+    <div class="fixed bottom-6 left-6 z-[9999]">
+        <button id="openHelpModalBtn" class="flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-3 px-5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white">
+            <div class="w-9 h-9 rounded-full border-2 border-white overflow-hidden bg-white flex-shrink-0 shadow-inner">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="אווטר בוט עזרה" class="w-full h-full object-cover">
+            </div>
+            <span class="text-xs font-bold">בוט עזרה מטורלל</span>
+        </button>
+    </div>
+
+    <!-- FLOATING BOT MODAL -->
+    <div id="helpModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
+        <div class="bg-white border-2 border-amber-400 rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl transform transition-transform" id="helpModalContent">
+            
+            <button id="closeHelpModalBtn" class="absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1.5 rounded-lg bg-slate-100">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="w-20 h-20 rounded-full mx-auto mb-3 border-2 border-amber-500 p-1 bg-amber-50 shadow-md overflow-hidden">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="תמונת בוט עזרה" class="w-full h-full object-cover rounded-full">
+            </div>
+
+            <h3 class="text-lg font-black text-slate-900 mb-1">צריך עזרה בשאלת הבגרות?</h3>
+            <p class="text-xs text-slate-600 mb-5 leading-relaxed">הבוט המטורלל מוכן להסביר לך בדיוק איך ה-NAT תרגם את הכתובת בחבילה 1 ובחבילה 2!</p>
+            
+            <a href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" class="w-full flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all shadow-md">
+                <span>דבר עם הבוט המטורלל</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-amber-200/80 bg-amber-100/40 py-4 px-4 text-center mt-6">
+        <p class="text-xs text-slate-600">© 2026 NET_ACADEMY - סימולטור פתרון בחינות בגרות בתקשורת מחשבים</p>
+    </footer>
 
     <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
-        // State management
-        let xp = 0;
-        let activeStep = 1;
-        let currentLevel = "מומחה Inter-VLAN";
-        let hasPassedSim = false;
-        let hasPassedAi = false;
-
-        const xpCounter = document.getElementById('xp-counter');
-        const userLevel = document.getElementById('user-level');
-        const levelBar = document.getElementById('level-bar');
-        const systemLog = document.getElementById('system-log');
-        const toastEl = document.getElementById('toast');
-        const toastMsg = document.getElementById('toast-message');
+        let xp = 100;
+        let activeStep = 0;
 
         lucide.createIcons();
 
-        window.onload = function() {
-            loadSavedProgress();
+        const nodesData = {
+            server: {
+                title: "שרת אינטרנט חיצוני (www.mynet.com)",
+                subtitle: "IP: 8.8.8.5 / 24",
+                desc: "שרת אינטרנט ציבורי הנמצא מחוץ לרשת הביתית. השרת מעביר דפי אינטרנט ותשובות למחשב PC1.",
+                extra: "תפקיד ב-NAT: Outside Destination / Source"
+            },
+            router: {
+                title: "נתב ביתי (Home_Router)",
+                subtitle: "NAT Overload Capable",
+                desc: "הנתב מבצע תרגום כתובות (NAT Overload). הוא משנה את כתובת ה-IP המוצגת כלפי חוץ כדי לאפשר למספר מחשבים פנימיים לגלוש דרך כתובת ציבורית בודדת.",
+                extra: "ממשק Fa1/0: Outside (100.2.3.2)\nממשק Fa0/0: Inside (172.16.1.1)"
+            },
+            switch: {
+                title: "מתג רשת (Switch0)",
+                subtitle: "Layer 2 Device",
+                desc: "מתג שמקשר בין המחשבים ברשת הפנימית לבין ממשק Fa0/0 של הנתב הביתי.",
+                extra: "חיבורים: Fa0/0 לנתב, Fa2/0 ל-PC0, Fa2/1 ל-PC1"
+            },
+            pc0: {
+                title: "תחנת קצה (PC0)",
+                subtitle: "IP: 172.16.1.200 / 24",
+                desc: "מחשב פנימי ברשת הביתית. בסימולציה זו אינו מעורב באופן פעיל בתקשורת.",
+                extra: "Default Gateway: 172.16.1.1"
+            },
+            pc1: {
+                title: "תחנת קצה (PC1 - היוזם)",
+                subtitle: "IP: 172.16.1.100 / 24",
+                desc: "המחשב ברשת הפנימית שיוזם את הפנייה לשרת www.mynet.com ומקבל ממנו את התשובות בחזרה.",
+                extra: "Default Gateway: 172.16.1.1\nמחובר לפורט Fa2/1 במתג"
+            }
         };
 
-        function loadSavedProgress() {
-            const savedXp = localStorage.getItem('net_academy_l8_xp');
-            const savedStep = localStorage.getItem('net_academy_l8_step');
-            const savedLevel = localStorage.getItem('net_academy_l8_level');
-            const savedQ1 = localStorage.getItem('net_academy_l8_q1');
-            const savedQ2 = localStorage.getItem('net_academy_l8_q2');
+        function showNodeInfo(key) {
+            const data = nodesData[key];
+            if (!data) return;
 
-            if (savedXp) {
-                xp = parseInt(savedXp);
-                xpCounter.innerText = xp;
-            } else {
-                xp = 545; // default starting XP from Lesson 7
-                xpCounter.innerText = xp;
-            }
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-subtitle').innerText = data.subtitle;
+            document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-extra').innerText = data.extra;
 
-            if (savedLevel) {
-                currentLevel = savedLevel;
-                userLevel.innerText = currentLevel;
-                updateLevelUI();
-            }
-
-            if (savedQ1) document.getElementById('reflection-q1').value = savedQ1;
-            if (savedQ2) document.getElementById('reflection-q2').value = savedQ2;
-
-            if (savedStep) {
-                switchStep(parseInt(savedStep));
-            } else {
-                switchStep(1);
-            }
-            addLog("התקדמות קודמת לשיעור 8 נטענה מהדפדפן.");
+            document.getElementById('nodeModal').classList.remove('hidden');
+            addLog(`לחץ על רכיב: ${data.title}`);
         }
 
-        function saveProgress() {
-            localStorage.setItem('net_academy_l8_xp', xp);
-            localStorage.setItem('net_academy_l8_step', activeStep);
-            localStorage.setItem('net_academy_l8_level', currentLevel);
-            localStorage.setItem('net_academy_l8_q1', document.getElementById('reflection-q1').value);
-            localStorage.setItem('net_academy_l8_q2', document.getElementById('reflection-q2').value);
-        }
-
-        function resetProgress() {
-            if (confirm("האם ברצונך לאפס את התקדמות שיעור 8? כל הניקוד שהושג בשיעור יימחק.")) {
-                localStorage.removeItem('net_academy_l8_xp');
-                localStorage.removeItem('net_academy_l8_step');
-                localStorage.removeItem('net_academy_l8_level');
-                localStorage.removeItem('net_academy_l8_q1');
-                localStorage.removeItem('net_academy_l8_q2');
-                
-                xp = 545;
-                activeStep = 1;
-                hasPassedSim = false;
-                hasPassedAi = false;
-                currentLevel = "מומחה Inter-VLAN";
-
-                xpCounter.innerText = xp;
-                userLevel.innerText = currentLevel;
-                levelBar.style.width = "80%";
-                
-                document.getElementById('reflection-q1').value = "";
-                document.getElementById('reflection-q2').value = "";
-                
-                document.getElementById('btn-to-step-4').disabled = true;
-                document.getElementById('btn-to-step-5').disabled = true;
-                document.getElementById('sim-feedback').classList.add('hidden');
-                document.getElementById('ai-bonus-alert').classList.add('hidden');
-                
-                // Reset NAT table view
-                const tableBody = document.getElementById('nat-table-body');
-                tableBody.innerHTML = `
-                    <tr id="empty-table-row">
-                        <td colspan="4" class="py-4 text-center text-slate-600 italic">הטבלה ריקה כרגע. לא בוצע אף תרגום כתובות בנתב.</td>
-                    </tr>
-                `;
-
-                // Reset packet dot
-                const dot = document.getElementById('packet-flow-dot');
-                dot.className = "absolute w-4 h-4 bg-sky-400 rounded-full shadow-lg shadow-sky-500/50 hidden z-20";
-
-                // Reset AI Chat
-                document.getElementById('chat-messages').innerHTML = `
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-300">
-                        <span class="text-[10px] font-bold text-red-400 block mb-1">RONEN_NET_MANAGER // </span>
-                        תקשיב, המצב פה על הפנים. הקמנו שרת אינטרנט פנימי בכתובת <code>192.168.1.100</code>.
-                        כתבתי בראוטר את פקודת ה-Static NAT הבאה:
-                        <code class="block text-left text-orange-400 font-mono text-[10px] bg-black p-1.5 rounded my-1" dir="ltr">ip nat inside source static 192.168.1.100 82.80.1.100</code>
-                        זה אמור לתרגם את השרת לכתובת הציבורית <code>82.80.1.100</code>. אבל אנשים מבחוץ פשוט מקבלים שגיאת Timeout ולא מצליחים להיכנס!
-                        <br><br>
-                        מה לדעתך שכחתי להגדיר? תשאל אותי שאלות על הגדרות הממשקים שלי ואני אבדוק לך מיד!
-                    </div>
-                `;
-
-                switchStep(1);
-                showToast("ההתקדמות בשיעור 8 אופסה.");
-                addLog("כל התקדמות המשתמש בשיעור זה אופסה.");
-            }
+        function closeNodeModal() {
+            document.getElementById('nodeModal').classList.add('hidden');
         }
 
         function switchStep(stepNum) {
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`step-${i}`).classList.add('hidden');
+            for (let i = 0; i <= 3; i++) {
+                const el = document.getElementById(`step-${i}`);
+                if(el) el.classList.add('hidden');
+                
                 const btn = document.getElementById(`btn-step-${i}`);
                 if (btn) {
-                    btn.className = "w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all";
+                    btn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold";
                 }
             }
 
-            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
+            const current = document.getElementById(`step-${stepNum}`);
+            if(current) current.classList.remove('hidden');
+
             const activeBtn = document.getElementById(`btn-step-${stepNum}`);
             if (activeBtn) {
-                activeBtn.className = "w-full text-right flex items-center justify-between p-3 rounded-lg bg-orange-950/30 border border-orange-500/40 text-orange-300 transition-all font-bold";
+                activeBtn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs";
             }
 
             activeStep = stepNum;
-            saveProgress();
-            addLog(`מעבר לשלב ${stepNum}.`);
+            addLog(`מעבר לשלב ${stepNum}`);
         }
 
         function addLog(text) {
             const time = new Date().toLocaleTimeString('he-IL', { hour12: false });
-            systemLog.innerHTML += `<p>[${time}] ${text}</p>`;
-            systemLog.scrollTop = systemLog.scrollHeight;
+            const logBox = document.getElementById('system-log');
+            logBox.innerHTML += `<p>[${time}] ${text}</p>`;
+            logBox.scrollTop = logBox.scrollHeight;
         }
 
-        function showToast(message) {
-            toastMsg.innerText = message;
-            toastEl.classList.remove('translate-y-20', 'opacity-0');
-            toastEl.classList.add('translate-y-0', 'opacity-100');
-            setTimeout(() => {
-                toastEl.classList.remove('translate-y-0', 'opacity-100');
-                toastEl.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
+        function simulatePacket(step) {
+            const env = document.getElementById('moving-envelope');
+            const btn1 = document.getElementById('btn-run-pkt1');
+            const btn2 = document.getElementById('btn-run-pkt2');
+            const statusText = document.getElementById('sim-status-text');
 
-        function addXP(amount) {
-            xp += amount;
-            xpCounter.innerText = xp;
-            
-            if (xp >= 650) {
-                currentLevel = "רב-נתב ואשף NAT";
-                levelBar.style.width = "100%";
-            } else if (xp >= 550) {
-                currentLevel = "מהנדס רשתות מומחה";
-                levelBar.style.width = "90%";
-            } else {
-                currentLevel = "מומחה Inter-VLAN";
-                levelBar.style.width = "80%";
-            }
-            
-            userLevel.innerText = currentLevel;
-            updateLevelUI();
-            saveProgress();
-            showToast(`נוספו +${amount} נקודות XP!`);
-        }
+            env.style.opacity = '1';
 
-        function updateLevelUI() {
-            document.getElementById('share-code').innerText = `NET-ACAD-L8-XP${xp}-${currentLevel.replace(/ /g, '_')}`;
-        }
+            if (step === 1) {
+                btn1.disabled = true;
+                document.getElementById('env-title').innerText = "חבילת נתונים 1 (לפני NAT)";
+                document.getElementById('env-src').innerText = "8.8.8.5";
+                document.getElementById('env-dst').innerText = "100.2.3.2";
 
-        // STEP 1: Scenario response
-        function answerScenario(choice) {
-            const feedback = document.getElementById('scenario-feedback');
-            feedback.classList.remove('hidden', 'bg-red-950/40', 'text-red-300', 'bg-emerald-950/40', 'text-emerald-300');
+                env.style.top = "12%";
+                env.style.left = "75%";
 
-            if (choice === 1) {
-                feedback.className += ' bg-emerald-950/40 text-emerald-300 p-3 rounded-lg text-xs';
-                feedback.innerHTML = `🌟 <b>נכון מאוד!</b> המלון הוא אנלוגיה מושלמת. החדרים הפנימיים הם כמו כתובות ה-IP הפרטיות (Private IPs) בבית שלך, וכתובת המלון היא ה-IP הציבורית (Public IP) שרשומה באינטרנט הכללי. פקיד הקבלה הוא הראוטר המתרגם!`;
-                addXP(25);
-                addLog("מענה נכון על חידון אנלוגיית המלון.");
-            } else {
-                feedback.className += ' bg-red-950/40 text-red-300 p-3 rounded-lg text-xs';
-                feedback.innerHTML = `❌ <b>לא נכון.</b> כריזה המונית לכולם היא אנלוגיה ל-Broadcast. היא לא מתרגמת שום כתובת ושומרת על בידוד חדרים, אלא סתם צועקת לכולם.`;
-                addXP(5);
-            }
-        }
-
-        // STEP 3: NAT Simulator logic
-        function startNatSimulation() {
-            document.getElementById('btn-trigger-nat').disabled = true;
-            addLog("[PC A] יוזם בקשת גלישה: מקור 192.168.1.15:5001 ➔ יעד 8.8.8.8:80");
-
-            const pcA = document.getElementById('node-pc-a');
-            const router = document.getElementById('node-nat-router');
-            const google = document.getElementById('node-server-google');
-
-            const parentRect = pcA.parentElement.parentElement.getBoundingClientRect();
-            const rectA = pcA.getBoundingClientRect();
-            const rectSW = router.getBoundingClientRect();
-            const rectG = google.getBoundingClientRect();
-
-            const dot = document.getElementById('packet-flow-dot');
-
-            // Set to PC A location
-            dot.style.top = `${rectA.top - parentRect.top + 30}px`;
-            dot.style.left = `${rectA.left - parentRect.left + 30}px`;
-            dot.className = "absolute w-4 h-4 bg-sky-400 rounded-full shadow-lg shadow-sky-500/50";
-            dot.classList.remove('hidden');
-
-            // 1. Packet from PC A to NAT Router
-            setTimeout(() => {
-                dot.style.transition = "all 1.5s cubic-bezier(0.4, 0, 0.2, 1)";
-                dot.style.top = `${rectSW.top - parentRect.top + 40}px`;
-                dot.style.left = `${rectSW.left - parentRect.left + 40}px`;
+                statusText.innerText = "חבילה 1 נשלחת מהשרת (8.8.8.5) לכיוון הכתובת הציבורית של הנתב (100.2.3.2)...";
+                addLog("[חבילה 1] שוגרה משרת 8.8.8.5 אל יעד 100.2.3.2");
 
                 setTimeout(() => {
-                    // Packet reaches Router. Translate to public orange color!
-                    dot.className = "absolute w-4 h-4 bg-orange-500 rounded-full shadow-lg shadow-orange-500/50";
-                    addLog("[NAT Router] חבילה התקבלה בממשק inside. מתרגם כתובת מקור: 192.168.1.15:5001 ➔ 82.80.1.1:5001");
-                    
-                    // Add row to NAT translation table
-                    updateNatTable('TCP', '192.168.1.15:5001', '82.80.1.1:5001', '8.8.8.8:80');
-
-                    // 2. Packet from NAT Router to Google
-                    dot.style.top = `${rectG.top - parentRect.top + 30}px`;
-                    dot.style.left = `${rectG.left - parentRect.left + 30}px`;
+                    env.style.top = "12%";
+                    env.style.left = "48%";
 
                     setTimeout(() => {
-                        addLog("[Google Server] חבילה התקבלה ממקור ציבורי 82.80.1.1:5001. מעבד בקשה ומחזיר מענה...");
+                        statusText.innerText = "חבילה 1 הגיעה לממשק Fa1/0 (NAT Outside) בנתב. כעת הנתב יבצע תרגום NAT!";
+                        addLog("[NAT Router] חבילה 1 הגיעה לממשק Outside. מתבצע תרגום יעד ל-172.16.1.100");
+                        btn2.disabled = false;
+                    }, 2800);
+                }, 100);
 
-                        // Return flow
-                        setTimeout(() => {
-                            addLog("[Google Server] שולח תשובה חזרה: מקור 8.8.8.8:80 ➔ יעד 82.80.1.1:5001");
-                            dot.style.top = `${rectSW.top - parentRect.top + 40}px`;
-                            dot.style.left = `${rectSW.left - parentRect.left + 40}px`;
+            } else if (step === 2) {
+                btn2.disabled = true;
+                document.getElementById('env-title').innerText = "חבילת נתונים 2 (לאחר NAT)";
+                document.getElementById('env-src').innerText = "8.8.8.5";
+                document.getElementById('env-dst').innerText = "172.16.1.100";
 
-                            setTimeout(() => {
-                                // Reaches Router. Translate back to private sky-blue color!
-                                dot.className = "absolute w-4 h-4 bg-sky-400 rounded-full shadow-lg shadow-sky-500/50";
-                                addLog("[NAT Router] תשובה התקבלה בממשק outside. מחפש בטבלה למי שייך פורט 5001... נמצא! מתרגם חזרה ל-192.168.1.15:5001");
+                env.style.top = "48%";
+                env.style.left = "40%";
+                statusText.innerText = "חבילה 2 מתורגמת! כתובת היעד שונתה לכתובת הפרטית של PC1 (172.16.1.100). החבילה נעה למתג...";
+                addLog("[חבילה 2] תורגמה. מקור: 8.8.8.5, יעד חדש: 172.16.1.100");
 
-                                // 3. Packet from NAT Router to PC A
-                                dot.style.top = `${rectA.top - parentRect.top + 30}px`;
-                                dot.style.left = `${rectA.left - parentRect.left + 30}px`;
+                setTimeout(() => {
+                    env.style.top = "80%";
+                    env.style.left = "52%";
 
-                                setTimeout(() => {
-                                    dot.classList.add('hidden');
-                                    addLog("[PC A] דף האינטרנט מגוגל נטען בהצלחה! תרגום ה-NAT הושלם.");
-                                    showFinalSimFeedback();
-                                    document.getElementById('btn-trigger-nat').disabled = false;
-                                }, 1500);
-
-                            }, 1500);
-
-                        }, 1000);
-
-                    }, 1500);
-
-                }, 1500);
-            }, 100);
-        }
-
-        function updateNatTable(pro, local, global, dest) {
-            const tableBody = document.getElementById('nat-table-body');
-            const emptyRow = document.getElementById('empty-table-row');
-            if (emptyRow) emptyRow.remove();
-
-            // Add dynamic entry
-            tableBody.innerHTML = `
-                <tr class="border-b border-slate-900 text-white font-mono hover:bg-slate-900 transition-colors">
-                    <td class="py-2.5 text-orange-400 font-bold">${pro}</td>
-                    <td class="py-2.5 text-sky-400">${local}</td>
-                    <td class="py-2.5 text-orange-500">${global}</td>
-                    <td class="py-2.5 text-emerald-400">${dest}</td>
-                </tr>
-            ` + tableBody.innerHTML;
-        }
-
-        function showFinalSimFeedback() {
-            const feedback = document.getElementById('sim-feedback');
-            feedback.classList.remove('hidden', 'bg-red-950/40', 'text-red-300', 'bg-emerald-950/40', 'text-emerald-300');
-            feedback.className += " bg-emerald-950/40 text-emerald-300";
-            
-            feedback.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <span class="text-xl">🌟</span>
-                    <div>
-                        <p class="font-bold">תרגום ה-NAT ותעול הפורטים עבד בהצלחה (PAT Success)!</p>
-                        <p class="text-[11px] opacity-90">ראית את זה קורה בעיניים: הראוטר שימש כ"מסכה". הוא לקח את הכתובת הפרטית של PC A, שינה אותה לכתובת הציבורית שלו וזכר להחזיר את תשובת שרת גוגל ישירות למחשב הפנימי הנכון בעזרת מספר הפורט הייחודי (Port 5001)!</p>
-                    </div>
-                </div>
-            `;
-            
-            if (!hasPassedSim) {
-                addXP(50);
-                hasPassedSim = true;
-            }
-            document.getElementById('btn-to-step-4').disabled = false;
-        }
-
-        // STEP 4: AI Troubleshooting Chat (Boss Challenge)
-        function handleChatKey(event) {
-            if (event.key === 'Enter') {
-                sendChatMessage();
+                    setTimeout(() => {
+                        statusText.innerText = "החבילה הגיעה בהצלחה אל מחשב PC1 (172.16.1.100)! התהליך הושלם.";
+                        addLog("[PC1] החבילה התקבלה בהצלחה.");
+                    }, 2800);
+                }, 2800);
             }
         }
 
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const messageText = input.value.trim();
-            if (!messageText) return;
+        function checkExamAnswers(e) {
+            e.preventDefault();
 
-            const messagesArea = document.getElementById('chat-messages');
-            messagesArea.innerHTML += `
-                <div class="bg-orange-600 text-white p-3 rounded-xl max-w-[85%] self-end text-xs">
-                    <span class="text-[10px] font-bold text-slate-200 block mb-1">אתה // </span>
-                    ${messageText}
-                </div>
-            `;
+            const q1 = document.getElementById('q1-ans').value.trim();
+            const q2 = document.getElementById('q2-ans').value.trim();
+            const q3 = document.getElementById('q3-ans').value.trim();
+            const q4 = document.getElementById('q4-ans').value.trim();
 
-            input.value = '';
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-            addLog("נשלחה הצעת פתרון לרונן מנהל הרשת.");
+            const feedback = document.getElementById('exam-feedback');
+            feedback.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-emerald-100', 'text-emerald-800');
 
-            // Bot loader
-            const typingId = "typing-" + Date.now();
-            messagesArea.innerHTML += `
-                <div id="${typingId}" class="text-slate-500 italic animate-pulse">
-                    רונן מקליד בעצבים...
-                </div>
-            `;
-            messagesArea.scrollTop = messagesArea.scrollHeight;
+            let score = 0;
+            if (q1 === "100.2.3.2") score++;
+            if (q2 === "8.8.8.5") score++;
+            if (q3 === "172.16.1.100") score++;
+            if (q4 === "8.8.8.5") score++;
 
-            setTimeout(() => {
-                document.getElementById(typingId).remove();
-                
-                let botResponse = "";
-                let isPassed = false;
-
-                const textLower = messageText.toLowerCase();
-
-                // Advanced troubleshooting keywords
-                const keywordsInside = ["inside", "אינסייד", "מבפנים", "פנימי"];
-                const keywordsOutside = ["outside", "אאוטסייד", "מבחוץ", "חיצוני"];
-                const keywordsInterface = ["interface", "ממשק", "פורט", "g0/0", "g0/1", "fa0/0", "fa0/1"];
-                const keywordsCommand = ["ip nat inside", "ip nat outside"];
-
-                const hasInside = keywordsInside.some(k => textLower.includes(k));
-                const hasOutside = keywordsOutside.some(k => textLower.includes(k));
-                const hasInterface = keywordsInterface.some(k => textLower.includes(k));
-                const hasCommand = keywordsCommand.some(k => textLower.includes(k));
-
-                if ((hasInside || hasOutside) && (hasInterface || hasCommand || textLower.includes("שכחת"))) {
-                    botResponse = `🎯 <b>יוווו! נכון! אני לא מאמין ששכחתי את זה!</b><br><br>
-                    איזה מחדל שלי! נכנסתי עכשיו לקונפיגורציה של הפורטים בראוטר ורשמתי על הפורט הפנימי שמחובר לשרת <code>ip nat inside</code>, ועל הפורט הפיזי שמחובר לאינטרנט רשמתי <code>ip nat outside</code>!<br><br>
-                    הפינגים מבחוץ התחילו לעבוד בשנייה אחת! האתר עלה לאוויר! הלקוחות מרוצים והמנכ"ל נרגע. הבנתי את הלקח שלי להיום: <b>אפילו אם חוק ה-NAT מוגדר מושלם, הנתב לא יתרגם כלום אם לא נגדיר לו במדויק איזה ממשק פיזי פונה פנימה ואיזה ממשק פונה החוצה!</b> תודה רבה לך! הצלת לי את הקריירה!`;
-                    isPassed = true;
-                } else if (hasCommand) {
-                    botResponse = `הממ... פקודות ה-<code>ip nat inside</code> ו-<code>ip nat outside</code> אכן נשמעות מוכרות מאוד. איפה בדיוק בקונפיגורציה של הראוטר אני אמור לרשום אותן? אתה יכול להסביר לי?`;
-                } else {
-                    botResponse = `לא, בדקתי את כבל הרשת והוא תקין, והחוק הסטטי <code>ip nat inside source static 192.168.1.100 82.80.1.100</code> כתוב בלי אף שגיאת כתיב. יש משהו שאנחנו חייבים לרשום על גבי ה<b>פורטים (Interfaces)</b> עצמם כדי שה-NAT בכלל יופעל? שמעת פעם על מונחים כמו inside או outside?`;
-                }
-
-                messagesArea.innerHTML += `
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-300">
-                        <span class="text-[10px] font-bold text-red-400 block mb-1">RONEN_NET_MANAGER // </span>
-                        ${botResponse}
-                    </div>
-                `;
-                messagesArea.scrollTop = messagesArea.scrollHeight;
-
-                if (isPassed && !hasPassedAi) {
-                    hasPassedAi = true;
-                    addXP(100);
-                    document.getElementById('ai-bonus-alert').classList.remove('hidden');
-                    document.getElementById('btn-to-step-5').disabled = false;
-                    addLog("תקלת ה-NAT הארגונית נפתרה ואושרה על ידי ה-AI.");
-                }
-
-            }, 1800);
-        }
-
-        // Copy Share Code
-        function copyShareCode() {
-            const code = document.getElementById('share-code').innerText;
-            const tempInput = document.createElement("input");
-            tempInput.value = code;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            showToast("קוד ההישג הועתק בהצלחה! שלח לחבר.");
-            addLog("קוד שיתוף הועתק ללוח.");
-        }
-
-        // Export Report to Teacher
-        function exportTeacherReport() {
-            const q1 = document.getElementById('reflection-q1').value;
-            const q2 = document.getElementById('reflection-q2').value;
-            
-            if (!q1 || !q2) {
-                alert("נא למלא את שתי שאלות הרפלקציה לפני שמייצאים דוח למורה!");
-                return;
+            if (score === 4) {
+                feedback.className += " bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerHTML = `🌟 <b>כל הכבוד! תשובה מושלמת (100%)!</b><br>ענית נכון על כל 4 הסעיפים בשאלת הבגרות!`;
+                xp += 100;
+                document.getElementById('xp-counter').innerText = xp;
+                addLog("תרגול הבגרות הושלם בהצלחה מלאה (+100 XP).");
+            } else {
+                feedback.className += " bg-red-100 text-red-800 border border-red-300";
+                feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות (${score}/4).</b><br>בדוק שוב את הסימולציה בשלב 2 ונסה שוב!`;
             }
-
-            const reportText = `
-=============================================
-דוח מסכם - שיעור 8: פרוטוקול תרגום כתובות NAT
-=============================================
-שם התלמיד: [נא להקליד שם מלא כאן]
-דירוג XP סופי: ${xp} XP
-דרגה נוכחית: ${currentLevel}
-
-תשובות לרפלקציה:
----------------------------------------------
-1. מדוע מנוע ה-NAT חייב להכיר את כיוון הממשקים (inside לעומת outside)?
-תשובה: ${q1}
-
-2. כיצד טכנולוגיית PAT (תרגום פורטים) מאפשרת למספר מחשבים לחלוק IP ציבורי יחיד?
-תשובה: ${q2}
-
----------------------------------------------
-מיוצר עבור מורה תקשורת ורשתות - NET_ACADEMY
-=============================================
-            `;
-
-            const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `NET_ACADEMY_Lesson8_Report.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            showToast("דוח פעילות הורד! העבר אותו למורה שלך.");
-            addLog("דוח פעילות הופק והורד למחשב המשתמש.");
         }
+
+        function resetProgress() {
+            document.getElementById('btn-run-pkt1').disabled = false;
+            document.getElementById('btn-run-pkt2').disabled = true;
+            document.getElementById('moving-envelope').style.opacity = '0';
+            document.getElementById('sim-status-text').innerText = 'לחץ על "שגר חבילת נתונים 1" כדי להתחיל את המעקב האיטי.';
+            addLog("הסימולציה אופסה.");
+        }
+
+        // FLOATING BOT SCRIPT FIX
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('helpModal');
+            const openBtn = document.getElementById('openHelpModalBtn');
+            const closeBtn = document.getElementById('closeHelpModalBtn');
+
+            if(openBtn && modal && closeBtn) {
+                openBtn.onclick = function() {
+                    modal.classList.remove('hidden');
+                };
+
+                closeBtn.onclick = function() {
+                    modal.classList.add('hidden');
+                };
+
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                };
+            }
+        });
     </script>
-
-<!-- כפתור עזרה צף קבוע בפינה התחתונה עם אווטר מובנה -->
-<div class="fixed bottom-6 left-6 z-50 no-print">
-    <button id="openHelpModalBtn" class="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg shadow-cyan-500/20 transition-all duration-300 transform hover:scale-105 group border border-cyan-400/30">
-        <!-- אווטר קטן בתוך הכפתור -->
-        <div class="w-8 h-8 rounded-full border border-white/40 overflow-hidden bg-slate-950 flex-shrink-0 shadow-inner">
-            <img src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="אווטר בוט עזרה" class="w-full h-full object-cover">
-        </div>
-        <span>בוט עזרה</span>
-    </button>
-</div>
-
-<!-- חלונית עזרה צפה (Modal) עם אווטר מורחב -->
-<div id="helpModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-all duration-300">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl shadow-cyan-500/5 transform scale-95 transition-transform duration-300" id="helpModalContent">
-        <!-- כפתור סגירה X -->
-        <button id="closeHelpModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-slate-800">
-            <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-        
-        <!-- אווטר התמונה בחלונית -->
-        <div class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-cyan-400/50 p-1 bg-slate-950 shadow-lg shadow-cyan-500/20 overflow-hidden">
-            <img src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="תמונת בוט עזרה" class="w-full h-full object-cover rounded-full">
-        </div>
-
-        <h3 class="text-lg font-black text-white mb-2">צריך עזרה במשימה?</h3>
-        <p class="text-sm text-slate-400 mb-6 leading-relaxed">בוט העזרה הרשמי של האקדמיה זמין כעת כדי לענות על שאלות, להסביר מושגים ולכוון אותך לפתרון המלא!</p>
-        
-        <!-- כפתור הפניה לקישור הבוט -->
-        <a href="https://gemini.google.com/gem/167016ac4a4b/66c3b83daa7940ef?usp=sharing" target="_blank" class="w-full flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-black py-3 px-4 rounded-xl transition-all duration-200 shadow-lg shadow-cyan-500/10">
-            <span>הפעל את בוט העזרה</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-        </a>
-    </div>
-</div>
-
-<!-- סקריפט להפעלת החלונית -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('helpModal');
-        const modalContent = document.getElementById('helpModalContent');
-        const openBtn = document.getElementById('openHelpModalBtn');
-        const closeBtn = document.getElementById('closeHelpModalBtn');
-
-        if(openBtn && modal && modalContent && closeBtn) {
-            openBtn.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-                setTimeout(() => modalContent.classList.remove('scale-95'), 10);
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modalContent.classList.add('scale-95');
-                setTimeout(() => modal.classList.add('hidden'), 150);
-            });
-
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modalContent.classList.add('scale-95');
-                    setTimeout(() => modal.classList.add('hidden'), 150);
-                }
-            });
-        }
-    });
-</script>
 
 </body>
 </html>
