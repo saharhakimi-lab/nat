@@ -45,6 +45,15 @@
             transform: scale(1.04);
             box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.25);
         }
+
+        /* 12s Continuous Avatar Spin */
+        @keyframes avatarSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-12s {
+            animation: avatarSpin 12s linear infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden border-t-8 border-amber-600">
@@ -116,6 +125,14 @@
                             <span>תרגול לבגרות (מענה)</span>
                         </div>
                         <i data-lucide="check-square" class="w-4 h-4 opacity-70"></i>
+                    </button>
+
+                    <button id="btn-step-4" onclick="switchStep(4)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                        <div class="flex items-center gap-2">
+                            <span class="code-font opacity-70">04.</span>
+                            <span>מבדק ידע ורפלקציה</span>
+                        </div>
+                        <i data-lucide="award" class="w-4 h-4 opacity-70"></i>
                     </button>
                 </nav>
             </div>
@@ -242,14 +259,10 @@
                     <!-- TOPOLOGY CANVAS WITH EXACT DYNAMIC SVG LINES -->
                     <div id="sim-canvas" class="relative bg-gradient-to-b from-amber-50/50 to-orange-50/20 border border-amber-200 rounded-2xl p-6 min-h-[460px] flex flex-col justify-between select-none">
                         
-                        <!-- DYNAMIC SVG FOR EXACT LINE DRAWING -->
-                        <svg id="svg-connections" class="absolute inset-0 w-full h-full pointer-events-none z-0">
-                            <!-- Lines will be dynamically drawn with pixel perfection -->
-                        </svg>
+                        <svg id="svg-connections" class="absolute inset-0 w-full h-full pointer-events-none z-0"></svg>
 
                         <!-- ROW 1: ROUTER & SERVER -->
                         <div class="flex justify-around items-center z-10 w-full pt-2">
-                            <!-- ROUTER -->
                             <div id="node-router" onclick="showNodeInfo('router')" class="interactive-node bg-white border-2 border-amber-500 rounded-xl p-3 flex flex-col items-center w-44 text-center cursor-pointer shadow-md">
                                 <i data-lucide="router" class="w-8 h-8 text-amber-600 mb-1"></i>
                                 <span class="text-xs font-bold text-slate-800">Home_Router</span>
@@ -259,7 +272,6 @@
                                 </div>
                             </div>
 
-                            <!-- SERVER -->
                             <div id="node-server" onclick="showNodeInfo('server')" class="interactive-node bg-white border-2 border-sky-500 rounded-xl p-3 flex flex-col items-center w-40 text-center cursor-pointer shadow-md">
                                 <i data-lucide="server" class="w-8 h-8 text-sky-600 mb-1"></i>
                                 <span class="text-xs font-bold text-slate-800">www.mynet.com</span>
@@ -278,14 +290,12 @@
 
                         <!-- ROW 3: PC0 & PC1 -->
                         <div class="flex justify-around items-center z-10 w-full pb-2">
-                            <!-- PC0 -->
                             <div id="node-pc0" onclick="showNodeInfo('pc0')" class="interactive-node bg-white border-2 border-slate-300 rounded-xl p-2.5 flex flex-col items-center w-32 text-center cursor-pointer shadow-md">
                                 <i data-lucide="monitor" class="w-6 h-6 text-slate-500 mb-1"></i>
                                 <span class="text-xs font-bold text-slate-800">PC0</span>
                                 <span class="text-[10px] font-mono text-slate-600">172.16.1.200</span>
                             </div>
 
-                            <!-- PC1 -->
                             <div id="node-pc1" onclick="showNodeInfo('pc1')" class="interactive-node bg-white border-2 border-emerald-500 rounded-xl p-2.5 flex flex-col items-center w-36 text-center cursor-pointer shadow-md">
                                 <i data-lucide="laptop" class="w-7 h-7 text-emerald-600 mb-1"></i>
                                 <span class="text-xs font-bold text-slate-800">PC1 (היוזם)</span>
@@ -313,7 +323,7 @@
 
                     </div>
 
-                    <!-- CONTROL PANEL WITH CLEAR RESET BUTTON -->
+                    <!-- CONTROL PANEL -->
                     <div class="mt-4 flex flex-wrap items-center justify-between gap-3 bg-amber-50/80 p-3.5 rounded-xl border border-amber-200">
                         <div class="text-xs text-slate-700">
                             <span class="font-bold block">שליטת תלמיד בתנועת החבילות:</span>
@@ -355,8 +365,65 @@
                 </div>
             </div>
 
-            <!-- STEP 3: EXAM PRACTICE -->
+            <!-- STEP 3: EXAM PRACTICE (WITH EXACT DUPLICATED SIMULATION TOPOLOGY) -->
             <div id="step-3" class="step-container space-y-5 hidden">
+                
+                <!-- TOPOLOGY DIAGRAM PREVIEW IN PRACTICE TAB -->
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="mb-3 flex items-center justify-between">
+                        <div>
+                            <span class="bg-amber-100 text-amber-800 text-[10px] px-2.5 py-0.5 rounded-full font-bold">תרשים עזר לשאלת הבגרות</span>
+                            <h3 class="text-lg font-black text-slate-900 mt-1">טופולוגיית הרשת וכתובות ה-IP</h3>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono">אין צורך לזכור כתובות בעל פה!</span>
+                    </div>
+
+                    <div id="sim-canvas-p" class="relative bg-gradient-to-b from-amber-50/50 to-orange-50/20 border border-amber-200 rounded-2xl p-5 min-h-[380px] flex flex-col justify-between select-none">
+                        <svg id="svg-connections-p" class="absolute inset-0 w-full h-full pointer-events-none z-0"></svg>
+
+                        <!-- ROW 1: ROUTER & SERVER -->
+                        <div class="flex justify-around items-center z-10 w-full pt-1">
+                            <div id="node-router-p" class="bg-white border-2 border-amber-500 rounded-xl p-2.5 flex flex-col items-center w-40 text-center shadow-sm">
+                                <i data-lucide="router" class="w-7 h-7 text-amber-600 mb-0.5"></i>
+                                <span class="text-xs font-bold text-slate-800">Home_Router</span>
+                                <div class="text-[9px] font-mono text-slate-600 mt-0.5 space-y-0.5">
+                                    <p class="text-sky-700 font-bold">Fa1/0 (Outside): 100.2.3.2</p>
+                                    <p class="text-emerald-700 font-bold">Fa0/0 (Inside): 172.16.1.1</p>
+                                </div>
+                            </div>
+
+                            <div id="node-server-p" class="bg-white border-2 border-sky-500 rounded-xl p-2.5 flex flex-col items-center w-36 text-center shadow-sm">
+                                <i data-lucide="server" class="w-7 h-7 text-sky-600 mb-0.5"></i>
+                                <span class="text-xs font-bold text-slate-800">www.mynet.com</span>
+                                <span class="text-[9px] font-mono text-sky-700 bg-sky-50 px-1 py-0.5 rounded mt-0.5">8.8.8.5/24</span>
+                            </div>
+                        </div>
+
+                        <!-- ROW 2: SWITCH -->
+                        <div class="flex justify-center z-10 w-full my-1">
+                            <div id="node-switch-p" class="bg-white border-2 border-slate-400 rounded-xl p-2 flex flex-col items-center w-32 text-center shadow-sm">
+                                <i data-lucide="network" class="w-5 h-5 text-slate-600 mb-0.5"></i>
+                                <span class="text-[11px] font-bold text-slate-800">Switch0</span>
+                            </div>
+                        </div>
+
+                        <!-- ROW 3: PC0 & PC1 -->
+                        <div class="flex justify-around items-center z-10 w-full pb-1">
+                            <div id="node-pc0-p" class="bg-white border-2 border-slate-300 rounded-xl p-2 flex flex-col items-center w-28 text-center shadow-sm">
+                                <i data-lucide="monitor" class="w-5 h-5 text-slate-500 mb-0.5"></i>
+                                <span class="text-[11px] font-bold text-slate-800">PC0</span>
+                                <span class="text-[9px] font-mono text-slate-600">172.16.1.200</span>
+                            </div>
+
+                            <div id="node-pc1-p" class="bg-white border-2 border-emerald-500 rounded-xl p-2 flex flex-col items-center w-32 text-center shadow-sm">
+                                <i data-lucide="laptop" class="w-6 h-6 text-emerald-600 mb-0.5"></i>
+                                <span class="text-[11px] font-bold text-slate-800">PC1 (היוזם)</span>
+                                <span class="text-[9px] font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mt-0.5">172.16.1.100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm">
                     <div class="border-b border-amber-100 pb-3 mb-4">
                         <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">משימת סיכום לבגרות</span>
@@ -397,10 +464,135 @@
                     <div id="exam-feedback" class="mt-4 hidden p-4 rounded-xl text-xs font-bold"></div>
                 </div>
 
-                <div class="flex justify-start">
+                <div class="flex justify-between">
                     <button onclick="switchStep(2)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         <span>חזרה לסימולציה</span>
+                    </button>
+                    <button onclick="switchStep(4)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs shadow-md">
+                        <span>עבור למבדק הידע והרפלקציה</span>
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 4: KNOWLEDGE QUIZ & REFLECTION -->
+            <div id="step-4" class="step-container space-y-5 hidden">
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm space-y-6">
+                    <div class="border-b border-amber-100 pb-3">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">הערכה מעצבת לבגרות</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">מבדק ידע בנושא NAT + שאלת רפלקציה</h2>
+                        <p class="text-xs text-slate-600 mt-1">ענה על 5 שאלות הרב-ברירה הבאות, ולאחר מכן כתוב את הרפלקציה האישית שלך.</p>
+                    </div>
+
+                    <form id="quiz-form" onsubmit="checkQuizAnswers(event)" class="space-y-5 text-xs">
+                        <!-- Q1 -->
+                        <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
+                            <p class="font-bold text-slate-900">1. מהו תפקידו העיקרי של מנגנון NAT ברשתות מחשבים?</p>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q1" value="a" class="accent-amber-600">
+                                <span>א. להבטיח אבטחת מידע מלאה נגד וירוסים במחשב הקצה.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q1" value="b" class="accent-amber-600">
+                                <span>ב. לאפשר למחשבים ברשת פרטית לגשת לאינטרנט הציבורי תוך חסכון בכתובות IPv4.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q1" value="c" class="accent-amber-600">
+                                <span>ג. להקצות כתובות MAC דינמיות לציוד ברשת הפנימית.</span>
+                            </label>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
+                            <p class="font-bold text-slate-900">2. בטכנולוגיית NAT Overload (PAT), כיצד הנתב מפריד בין תקשורות של מחשבים שונים השותפים לאותה כתובת ציבורית?</p>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q2" value="a" class="accent-amber-600">
+                                <span>א. לפי כתובת ה-MAC הפיזית של המחשב.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q2" value="b" class="accent-amber-600">
+                                <span>ב. באמצעות מספרי פורטים (Port Numbers) ייחודיים לכל שיחה.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q2" value="c" class="accent-amber-600">
+                                <span>ג. לפי שם המחשב ברשת (Host Name).</span>
+                            </label>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
+                            <p class="font-bold text-slate-900">3. מה מהבאים מאפיין NAT סטטי (Static NAT)?</p>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q3" value="a" class="accent-amber-600">
+                                <span>א. מיפוי קבוע של 1:1 בין כתובת פרטית פנימית לכתובת ציבורית חיצונית.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q3" value="b" class="accent-amber-600">
+                                <span>ב. חלוקת כתובות מתוך בריכת כתובות משתנה לפי כל הקודם זוכה.</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q3" value="c" class="accent-amber-600">
+                                <span>ג. מנגנון הפועל אך ורק בשכבת האפליקציה (Layer 7).</span>
+                            </label>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
+                            <p class="font-bold text-slate-900">4. כאשר חבילת תשובה (Reply) חוזרת מהשרת באינטרנט אל המחשב ברשת הפנימית, איזה שדה מעטפה הנתב מתרגם?</p>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q4" value="a" class="accent-amber-600">
+                                <span>א. כתובת ה-IP של המקור (Source IP).</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q4" value="b" class="accent-amber-600">
+                                <span>ב. כתובת ה-IP של היעד (Destination IP).</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q4" value="c" class="accent-amber-600">
+                                <span>ג. הנתב אינו משנה דבר בחבילת התשובה בחזור.</span>
+                            </label>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
+                            <p class="font-bold text-slate-900">5. איזה ממשק בנתב מוגדר כ-NAT Inside בסימולציה שתרגלנו?</p>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q5" value="a" class="accent-amber-600">
+                                <span>א. ממשק Fa1/0 (100.2.3.2)</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q5" value="b" class="accent-amber-600">
+                                <span>ב. ממשק Fa0/0 (172.16.1.1)</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                                <input type="radio" name="quiz-q5" value="c" class="accent-amber-600">
+                                <span>ג. הממשק של השרת במרחב הציבורי.</span>
+                            </label>
+                        </div>
+
+                        <!-- REFLECTION QUESTION -->
+                        <div class="p-4 bg-amber-100/60 rounded-xl border border-amber-300 space-y-2">
+                            <label class="font-black text-amber-900 block text-xs">✍️ שאלת רפלקציה אישית:</label>
+                            <p class="text-slate-700">תאר בקצרה מה הייתה תובנת ה-"אאהה!" המרכזית שלך מהשיעור והסימולציה, ואיזה מושג ב-NAT ידרוש ממך חזרה נוספת לפני הבחינה?</p>
+                            <textarea id="reflection-ans" rows="3" placeholder="כתוֹב את מחשבותיך כאן..." class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-amber-600"></textarea>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl text-xs transition-all shadow-md flex items-center gap-2">
+                                <i data-lucide="award" class="w-4 h-4"></i>
+                                <span>הגש מבדק וקבל משוב מלא</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs font-bold leading-relaxed space-y-2"></div>
+                </div>
+
+                <div class="flex justify-start">
+                    <button onclick="switchStep(3)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs">
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <span>חזרה לשאלת הבגרות</span>
                     </button>
                 </div>
             </div>
@@ -421,11 +613,11 @@
         </div>
     </div>
 
-    <!-- FLOATING BOT BUTTON -->
+    <!-- FLOATING BOT BUTTON (WITH CONTINUOUS 12s ROTATING AVATAR) -->
     <div class="fixed bottom-6 left-6 z-[9999]">
         <button id="openHelpModalBtn" class="flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-3 px-5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white">
             <div class="w-9 h-9 rounded-full border-2 border-white overflow-hidden bg-white flex-shrink-0 shadow-inner">
-                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Avatar" class="w-full h-full object-cover">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Avatar" class="w-full h-full object-cover spin-12s">
             </div>
             <span class="text-xs font-bold">בוט עזרה מטורלל</span>
         </button>
@@ -438,7 +630,7 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <div class="w-20 h-20 rounded-full mx-auto mb-3 border-2 border-amber-500 p-1 bg-amber-50 shadow-md overflow-hidden">
-                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Bot" class="w-full h-full object-cover rounded-full">
+                <img src="https://lh3.googleusercontent.com/d/1BHxytxfATgrv3wpk_8slqpRX08p2Dzml" alt="Bot" class="w-full h-full object-cover rounded-full spin-12s">
             </div>
             <h3 class="text-lg font-black text-slate-900 mb-1">צריך עזרה בשאלת הבגרות?</h3>
             <p class="text-xs text-slate-600 mb-5 leading-relaxed">הבוט מוכן להסביר לך בדיוק איך ה-NAT תרגם את הכתובת!</p>
@@ -459,10 +651,10 @@
         let xp = 100;
         lucide.createIcons();
 
-        // DYNAMICALLY DRAW DOTTED LINES BETWEEN ELEMENTS PERFECTLY
-        function drawTopologyLines() {
-            const svg = document.getElementById('svg-connections');
-            const canvas = document.getElementById('sim-canvas');
+        // HELPER TO DRAW DOTTED LINES FOR A GIVEN CANVAS AND SVG
+        function drawTopologyForCanvas(canvasId, svgId, prefix) {
+            const svg = document.getElementById(svgId);
+            const canvas = document.getElementById(canvasId);
             if(!svg || !canvas) return;
 
             const cRect = canvas.getBoundingClientRect();
@@ -477,11 +669,11 @@
                 };
             }
 
-            const router = getCenter('node-router');
-            const server = getCenter('node-server');
-            const switchNode = getCenter('node-switch');
-            const pc0 = getCenter('node-pc0');
-            const pc1 = getCenter('node-pc1');
+            const router = getCenter('node-router' + prefix);
+            const server = getCenter('node-server' + prefix);
+            const switchNode = getCenter('node-switch' + prefix);
+            const pc0 = getCenter('node-pc0' + prefix);
+            const pc1 = getCenter('node-pc1' + prefix);
 
             svg.innerHTML = `
                 <!-- Router to Server -->
@@ -493,6 +685,11 @@
                 <!-- Switch to PC1 -->
                 <line x1="${switchNode.x}" y1="${switchNode.y}" x2="${pc1.x}" y2="${pc1.y}" stroke="#10b981" stroke-width="2.5" />
             `;
+        }
+
+        function drawTopologyLines() {
+            drawTopologyForCanvas('sim-canvas', 'svg-connections', '');
+            drawTopologyForCanvas('sim-canvas-p', 'svg-connections-p', '-p');
         }
 
         window.addEventListener('resize', drawTopologyLines);
@@ -525,31 +722,26 @@
             env.style.opacity = '1';
 
             if (part === 1) {
-                // PART 1: PC1 -> Router (NAT translation) -> Server
                 btn1.disabled = true;
                 
                 document.getElementById('env-title').innerText = "בקשה מיוצאת (Request)";
                 document.getElementById('env-src').innerText = "172.16.1.100";
                 document.getElementById('env-dst').innerText = "8.8.8.5";
 
-                // Step A: Start at PC1
                 env.style.left = `${posPC1.x}px`;
                 env.style.top = `${posPC1.y}px`;
                 statusText.innerText = "חלק 1: החבילה יוצאת מ-PC1 (172.16.1.100) לכיוון המתג...";
 
                 setTimeout(() => {
-                    // Step B: Move to Router
                     env.style.left = `${posRouter.x}px`;
                     env.style.top = `${posRouter.y}px`;
                     
                     setTimeout(() => {
-                        // NAT Transformation at Router
                         document.getElementById('env-src').innerText = "100.2.3.2 (NAT)";
                         statusText.innerText = "הנתב תירגם את כתובת המקור מ-172.16.1.100 לכתובת הציבורית 100.2.3.2!";
                         addLog("[NAT Outgoing] תורגם מקור: 172.16.1.100 ➔ 100.2.3.2");
 
                         setTimeout(() => {
-                            // Step C: Move to Server
                             env.style.left = `${posServer.x}px`;
                             env.style.top = `${posServer.y}px`;
 
@@ -563,31 +755,26 @@
                 }, 200);
 
             } else if (part === 2) {
-                // PART 2: Server -> Router (NAT translation) -> PC1 (BAGRUT QUESTION CASE)
                 btn2.disabled = true;
 
                 document.getElementById('env-title').innerText = "תשובה מוחזרת (Reply)";
                 document.getElementById('env-src').innerText = "8.8.8.5";
                 document.getElementById('env-dst').innerText = "100.2.3.2";
 
-                // Step A: Start at Server
                 env.style.left = `${posServer.x}px`;
                 env.style.top = `${posServer.y}px`;
                 statusText.innerText = "חלק 2 (שאלת הבגרות): החבילה חוזרת מהשרת (8.8.8.5) אל הכתובת הציבורית של הנתב (100.2.3.2)...";
 
                 setTimeout(() => {
-                    // Step B: Move to Router Outside
                     env.style.left = `${posRouter.x}px`;
                     env.style.top = `${posRouter.y}px`;
 
                     setTimeout(() => {
-                        // NAT Translation
                         document.getElementById('env-dst').innerText = "172.16.1.100 (NAT)";
                         statusText.innerText = "הנתב קיבל את התשובה בפורט הציבורי ותירגם את היעד חזרה ל-PC1 (172.16.1.100)!";
                         addLog("[NAT Incoming] תורגם יעד: 100.2.3.2 ➔ 172.16.1.100");
 
                         setTimeout(() => {
-                            // Step C: Move to PC1
                             env.style.left = `${posPC1.x}px`;
                             env.style.top = `${posPC1.y}px`;
 
@@ -610,7 +797,7 @@
         }
 
         function switchStep(stepNum) {
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i <= 4; i++) {
                 const el = document.getElementById(`step-${i}`);
                 if(el) el.classList.add('hidden');
                 const btn = document.getElementById(`btn-step-${i}`);
@@ -619,7 +806,7 @@
             document.getElementById(`step-${stepNum}`).classList.remove('hidden');
             document.getElementById(`btn-step-${stepNum}`).className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs";
             
-            if(stepNum === 2) {
+            if(stepNum === 2 || stepNum === 3) {
                 setTimeout(drawTopologyLines, 200);
             }
         }
@@ -672,6 +859,42 @@
                 feedback.className += " bg-red-100 text-red-800 border border-red-300";
                 feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות (${score}/4).</b> נסה שוב!`;
             }
+        }
+
+        // QUIZ & REFLECTION CHECKER LOGIC
+        function checkQuizAnswers(e) {
+            e.preventDefault();
+            const q1 = document.querySelector('input[name="quiz-q1"]:checked')?.value;
+            const q2 = document.querySelector('input[name="quiz-q2"]:checked')?.value;
+            const q3 = document.querySelector('input[name="quiz-q3"]:checked')?.value;
+            const q4 = document.querySelector('input[name="quiz-q4"]:checked')?.value;
+            const q5 = document.querySelector('input[name="quiz-q5"]:checked')?.value;
+            const reflection = document.getElementById('reflection-ans').value.trim();
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-emerald-100', 'text-emerald-800', 'bg-amber-100', 'text-amber-900');
+
+            if (!q1 || !q2 || !q3 || !q4 || !q5) {
+                feedback.className += " bg-red-100 text-red-800 border border-red-300";
+                feedback.innerHTML = `⚠️ אנא ענה על כל 5 שאלות הרב-ברירה לפני הגשת המבדק.`;
+                return;
+            }
+
+            let quizScore = 0;
+            if (q1 === 'b') quizScore += 20;
+            if (q2 === 'b') quizScore += 20;
+            if (q3 === 'a') quizScore += 20;
+            if (q4 === 'b') quizScore += 20;
+            if (q5 === 'b') quizScore += 20;
+
+            let feedbackClass = quizScore >= 80 ? "bg-emerald-100 text-emerald-900 border border-emerald-300" : "bg-amber-100 text-amber-900 border border-amber-300";
+            
+            feedback.className += ` ${feedbackClass}`;
+            feedback.innerHTML = `
+                <p class="text-sm font-black mb-1">🎯 הציון שלך במבדק הידע: ${quizScore} / 100</p>
+                <p>• תשובות נכונות: ${quizScore / 20} מתוך 5 שאלות.</p>
+                ${reflection ? `<div class="mt-2 pt-2 border-t border-amber-200/80"><strong>נרשמה הרפלקציה שלך:</strong> "${reflection}"</div>` : `<p class="mt-1 text-slate-500">* לא הוספת רפלקציה אישית, מומלץ להוסיף בשביל השיקוף העצמי שלך!</p>`}
+            `;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
