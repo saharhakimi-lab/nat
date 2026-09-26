@@ -106,46 +106,46 @@
         <!-- SIDEBAR -->
         <aside class="lg:col-span-3 flex flex-col gap-4">
             <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
-                <h3 class="text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase border-b border-amber-100 pb-2">תוכן השיעור</h3>
+                <h3 class="text-sm font-bold text-slate-600 mb-3 tracking-wider uppercase border-b border-amber-100 pb-2">תוכן השיעור</h3>
                 <nav class="flex flex-col gap-2">
-                    <button id="btn-step-0" onclick="switchStep(0)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs">
+                    <button id="btn-step-0" onclick="switchStep(0)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-sm">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">00.</span>
                             <span>תיאוריית <span class="en-term code-font">NAT</span> מלאה</span>
                         </div>
-                        <i data-lucide="book-open" class="w-4 h-4 text-amber-600"></i>
+                        <i data-lucide="book-open" class="w-5 h-5 text-amber-600 flex-shrink-0"></i>
                     </button>
 
-                    <button id="btn-step-1" onclick="switchStep(1)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                    <button id="btn-step-1" onclick="switchStep(1)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">01.</span>
                             <span>נתוני שאלת הבגרות</span>
                         </div>
-                        <i data-lucide="file-text" class="w-4 h-4 opacity-70"></i>
+                        <i data-lucide="file-text" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
                     </button>
 
-                    <button id="btn-step-2" onclick="switchStep(2)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                    <button id="btn-step-2" onclick="switchStep(2)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">02.</span>
                             <span>סימולציית תנועת מעטפה</span>
                         </div>
-                        <i data-lucide="play-circle" class="w-4 h-4 opacity-70"></i>
+                        <i data-lucide="play-circle" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
                     </button>
 
-                    <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                    <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">03.</span>
                             <span>תרגול לבגרות (מענה)</span>
                         </div>
-                        <i data-lucide="check-square" class="w-4 h-4 opacity-70"></i>
+                        <i data-lucide="check-square" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
                     </button>
 
-                    <button id="btn-step-4" onclick="switchStep(4)" class="w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold">
+                    <button id="btn-step-4" onclick="switchStep(4)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">04.</span>
                             <span>מבדק ידע ורפלקציה</span>
                         </div>
-                        <i data-lucide="award" class="w-4 h-4 opacity-70"></i>
+                        <i data-lucide="award" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
                     </button>
                 </nav>
             </div>
@@ -157,7 +157,7 @@
                         <i data-lucide="activity" class="w-4 h-4 text-amber-600"></i>
                         <span>יומן מעקב חבילות</span>
                     </h4>
-                    <div id="system-log" class="text-[11px] code-font text-slate-700 space-y-1.5 h-44 overflow-y-auto bg-amber-50/50 p-3 rounded-xl border border-amber-200/60 text-left" dir="ltr">
+                    <div id="system-log" class="text-xs code-font text-slate-700 space-y-1.5 h-44 overflow-y-auto bg-amber-50/50 p-3 rounded-xl border border-amber-200/60 text-left" dir="ltr">
                         <p class="text-slate-500">[10:00:00] NAT Lesson System Loaded.</p>
                     </div>
                 </div>
@@ -969,10 +969,10 @@
                 const el = document.getElementById(`step-${i}`);
                 if(el) el.classList.add('hidden');
                 const btn = document.getElementById(`btn-step-${i}`);
-                if (btn) btn.className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-amber-50 transition-all text-xs font-semibold";
+                if (btn) btn.className = "w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold";
             }
             document.getElementById(`step-${stepNum}`).classList.remove('hidden');
-            document.getElementById(`btn-step-${stepNum}`).className = "w-full text-right flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-xs";
+            document.getElementById(`btn-step-${stepNum}`).className = "w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 transition-all font-bold text-sm";
             
             if(stepNum === 2 || stepNum === 3) {
                 setTimeout(drawTopologyLines, 200);
