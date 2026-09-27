@@ -81,7 +81,7 @@
                 </div>
                 <div>
                     <h1 class="font-black text-lg tracking-wide text-slate-900"><span class="en-term code-font">NET_ACADEMY</span> // <span class="text-amber-700">שיעור <span class="en-term code-font">NAT</span> המלא לבגרות</span></h1>
-                    <p class="text-xs text-slate-600">כל התיאוריה, הסוגים, הסימולציה והתרגול (תשפ"ו)</p>
+                    <p class="text-xs text-slate-600">כל התיאוריה, הסוגים, הסימולציה והתרגול תשפ"ו</p>
                 </div>
             </div>
             
@@ -135,7 +135,7 @@
                     <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-amber-50 transition-all text-sm font-bold">
                         <div class="flex items-center gap-2">
                             <span class="code-font opacity-70">03.</span>
-                            <span>תרגול לבגרות (מענה)</span>
+                            <span>תרגול לבגרות - מענה</span>
                         </div>
                         <i data-lucide="check-square" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
                     </button>
@@ -172,7 +172,7 @@
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm space-y-5">
                     <div>
                         <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">מבוא תיאורטי - תקשורת מחשבים</span>
-                        <h2 class="text-2xl font-black text-slate-900 mt-2">מהו <span class="en-term code-font">NAT</span>? (<span class="en-term code-font">Network Address Translation</span>)</h2>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">מהו <span class="en-term code-font">NAT</span>? <span class="en-term code-font">Network Address Translation</span></h2>
                         <p class="text-slate-700 leading-relaxed text-sm mt-1">
                             מנגנון <span class="en-term code-font">NAT</span> תוכנן במקור כדי לפתור את בעיית מחסור הכתובות בפרוטוקול <span class="en-term code-font">IPv4</span>. המטרה: לאפשר לרשתות פרטיות פנימיות לגלוש ברשת האינטרנט הציבורית תוך שימוש בכתובת <span class="en-term code-font">IP</span> ציבורית אחת בלבד.
                         </p>
@@ -180,16 +180,16 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
-                            <span class="font-bold text-amber-900 text-sm block">1. <span class="en-term code-font">Static NAT</span> (סטטי)</span>
+                            <span class="font-bold text-amber-900 text-sm block">1. <span class="en-term code-font">Static NAT</span> סטטי</span>
                             <p class="text-xs text-slate-600 leading-relaxed">
                                 מיפוי קבוע של <span class="en-term code-font">1:1</span> בין כתובת פרטית פנימית לכתובת ציבורית חיצונית.
                             </p>
                         </div>
 
                         <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl space-y-2">
-                            <span class="font-bold text-amber-900 text-sm block">2. <span class="en-term code-font">Dynamic NAT</span> (דינמי)</span>
+                            <span class="font-bold text-amber-900 text-sm block">2. <span class="en-term code-font">Dynamic NAT</span> דינמי</span>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                המרת כתובת פרטית מתוך בריכת כתובות (<span class="en-term code-font">Pool</span>) ציבוריות זמינות.
+                                המרת כתובת פרטית מתוך בריכת כתובות <span class="en-term code-font">Pool</span> ציבוריות זמינות.
                             </p>
                         </div>
 
@@ -215,7 +215,7 @@
                 <div class="bg-white border border-amber-200/80 rounded-2xl p-6 shadow-sm">
                     <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">שאלת בגרות - מערכות תקשורת</span>
                     
-                    <h2 class="text-2xl font-black text-slate-900 mt-3 mb-2">תרגום כתובות בטופולוגיה ביתית (<span class="en-term code-font">NAT Overload</span>)</h2>
+                    <h2 class="text-2xl font-black text-slate-900 mt-3 mb-2">תרגום כתובות בטופולוגיה ביתית <span class="en-term code-font">NAT Overload</span></h2>
                     <p class="text-slate-700 leading-relaxed text-sm">
                         בטופולוגיה שלפניכם נעשה שימוש ב-<span class="en-term code-font">NAT Overload</span> על גבי הממשקים של הנתב <span class="en-term code-font">Home_Router</span>.
                     </p>
@@ -224,13 +224,13 @@
                         <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl">
                             <span class="text-xs font-bold text-amber-800 block mb-1">נתב <span class="en-term code-font">Home_Router</span></span>
                             <ul class="text-xs text-slate-700 space-y-1">
-                                <li>• <span class="en-term code-font">Fa0/0</span>: <span class="en-term code-font text-emerald-700">Inside</span> (<span class="code-font">172.16.1.1</span>)</li>
-                                <li>• <span class="en-term code-font">Fa1/0</span>: <span class="en-term code-font text-sky-700">Outside</span> (<span class="code-font">100.2.3.2</span>)</li>
+                                <li>• <span class="en-term code-font">Fa0/0</span>: <span class="en-term code-font text-emerald-700">Inside</span> <span class="code-font">172.16.1.1</span></li>
+                                <li>• <span class="en-term code-font">Fa1/0</span>: <span class="en-term code-font text-sky-700">Outside</span> <span class="code-font">100.2.3.2</span></li>
                             </ul>
                         </div>
 
                         <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl">
-                            <span class="text-xs font-bold text-emerald-800 block mb-1">רשת פנימית (<span class="en-term code-font">LAN</span>)</span>
+                            <span class="text-xs font-bold text-emerald-800 block mb-1">רשת פנימית <span class="en-term code-font">LAN</span></span>
                             <ul class="text-xs text-slate-700 space-y-1">
                                 <li>• <span class="en-term code-font">PC0</span>: <span class="code-font">172.16.1.200</span></li>
                                 <li>• <span class="en-term code-font">PC1</span>: <span class="code-font">172.16.1.100</span></li>
@@ -280,8 +280,8 @@
                                 <i data-lucide="router" class="w-8 h-8 text-amber-600 mb-1"></i>
                                 <span class="text-xs font-bold text-slate-800"><span class="en-term code-font">Home_Router</span></span>
                                 <div class="text-[9px] text-slate-600 mt-1 space-y-0.5 text-left" dir="ltr">
-                                    <p class="text-sky-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa1/0 (Outside): 100.2.3.2</span></p>
-                                    <p class="text-emerald-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa0/0 (Inside): 172.16.1.1</span></p>
+                                    <p class="text-sky-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa1/0 Outside: 100.2.3.2</span></p>
+                                    <p class="text-emerald-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa0/0 Inside: 172.16.1.1</span></p>
                                 </div>
                             </div>
 
@@ -311,7 +311,7 @@
 
                             <div id="node-pc1" onclick="showNodeInfo('pc1')" class="interactive-node bg-white border-2 border-emerald-500 rounded-xl p-2.5 flex flex-col items-center w-40 text-center cursor-pointer shadow-md">
                                 <i data-lucide="laptop" class="w-7 h-7 text-emerald-600 mb-1"></i>
-                                <span class="text-xs font-bold text-slate-800"><span class="en-term code-font">PC1</span> (היוזם)</span>
+                                <span class="text-xs font-bold text-slate-800"><span class="en-term code-font">PC1</span> היוזם</span>
                                 <span class="text-[10px] code-font text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-0.5" dir="ltr">172.16.1.100</span>
                             </div>
                         </div>
@@ -345,11 +345,11 @@
                         <div class="flex items-center gap-2">
                             <button id="btn-run-pkt1" onclick="simulatePacket(1)" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm">
                                 <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                                <span>1. שיגור יציאה (<span class="en-term code-font text-[10px] bg-transparent border-0 text-white">PC1 ➔ Server</span>)</span>
+                                <span>1. שיגור יציאה <span class="en-term code-font text-[10px] bg-transparent border-0 text-white">PC1 ➔ Server</span></span>
                             </button>
                             <button id="btn-run-pkt2" onclick="simulatePacket(2)" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 shadow-sm disabled:opacity-40" disabled>
                                 <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
-                                <span>2. שיגור חזרה (<span class="en-term code-font text-[10px] bg-transparent border-0 text-white">Server ➔ PC1</span>)</span>
+                                <span>2. שיגור חזרה <span class="en-term code-font text-[10px] bg-transparent border-0 text-white">Server ➔ PC1</span></span>
                             </button>
                             <button onclick="resetProgress()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-1">
                                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-red-600"></i>
@@ -399,8 +399,8 @@
                                 <i data-lucide="router" class="w-7 h-7 text-amber-600 mb-0.5"></i>
                                 <span class="text-xs font-bold text-slate-800"><span class="en-term code-font">Home_Router</span></span>
                                 <div class="text-[9px] text-slate-600 mt-0.5 space-y-0.5 text-left" dir="ltr">
-                                    <p class="text-sky-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa1/0 (Outside): 100.2.3.2</span></p>
-                                    <p class="text-emerald-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa0/0 (Inside): 172.16.1.1</span></p>
+                                    <p class="text-sky-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa1/0 Outside: 100.2.3.2</span></p>
+                                    <p class="text-emerald-700 font-bold"><span class="en-term code-font p-0 border-0 bg-transparent">Fa0/0 Inside: 172.16.1.1</span></p>
                                 </div>
                             </div>
 
@@ -429,7 +429,7 @@
 
                             <div id="node-pc1-p" class="bg-white border-2 border-emerald-500 rounded-xl p-2 flex flex-col items-center w-36 text-center shadow-sm">
                                 <i data-lucide="laptop" class="w-6 h-6 text-emerald-600 mb-0.5"></i>
-                                <span class="text-[11px] font-bold text-slate-800"><span class="en-term code-font">PC1</span> (היוזם)</span>
+                                <span class="text-[11px] font-bold text-slate-800"><span class="en-term code-font">PC1</span> היוזם</span>
                                 <span class="text-[9px] code-font text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mt-0.5" dir="ltr">172.16.1.100</span>
                             </div>
                         </div>
@@ -440,28 +440,28 @@
                     <div class="border-b border-amber-100 pb-3 mb-4">
                         <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">משימת סיכום לבגרות</span>
                         <h2 class="text-2xl font-black text-slate-900 mt-2">השלמת הסעיפים מתוך שאלת המבחן</h2>
-                        <p class="text-xs text-slate-600">השלם את הכתובות החסרות בהתאם לחבילת התשובה (<span class="en-term code-font text-[10px]">Reply</span>) מהשרת:</p>
+                        <p class="text-xs text-slate-600">השלם את הכתובות החסרות בהתאם לחבילת התשובה <span class="en-term code-font text-[10px]">Reply</span> מהשרת:</p>
                     </div>
 
                     <form id="exam-form" onsubmit="checkExamAnswers(event)" class="space-y-4 text-xs">
                         
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">1. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של היעד (<span class="en-term code-font text-[11px]">Destination</span>) המופיעה ב-"חבילת נתונים 1" (לפני הנתב):</label>
+                            <label class="font-bold text-slate-800 block mb-2">1. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של היעד <span class="en-term code-font text-[11px]">Destination</span> המופיעה ב-"חבילת נתונים 1" לפני הנתב:</label>
                             <input type="text" id="q1-ans" placeholder="למשל: 100.2.3.2" dir="ltr" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600 text-left">
                         </div>
 
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">2. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של המקור (<span class="en-term code-font text-[11px]">Source</span>) המופיעה ב-"חבילת נתונים 1" (לפני הנתב):</label>
+                            <label class="font-bold text-slate-800 block mb-2">2. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של המקור <span class="en-term code-font text-[11px]">Source</span> המופיעה ב-"חבילת נתונים 1" לפני הנתב:</label>
                             <input type="text" id="q2-ans" placeholder="למשל: 8.8.8.5" dir="ltr" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600 text-left">
                         </div>
 
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">3. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של היעד (<span class="en-term code-font text-[11px]">Destination</span>) המופיעה ב-"חבילת נתונים 2" (לאחר תרגום הנתב):</label>
+                            <label class="font-bold text-slate-800 block mb-2">3. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של היעד <span class="en-term code-font text-[11px]">Destination</span> המופיעה ב-"חבילת נתונים 2" לאחר תרגום הנתב:</label>
                             <input type="text" id="q3-ans" placeholder="למשל: 172.16.1.100" dir="ltr" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600 text-left">
                         </div>
 
                         <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                            <label class="font-bold text-slate-800 block mb-2">4. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של המקור (<span class="en-term code-font text-[11px]">Source</span>) המופיעה ב-"חבילת נתונים 2" (לאחר תרגום הנתב):</label>
+                            <label class="font-bold text-slate-800 block mb-2">4. כתובת ה-<span class="en-term code-font text-[11px]">IP</span> של המקור <span class="en-term code-font text-[11px]">Source</span> המופיעה ב-"חבילת נתונים 2" לאחר תרגום הנתב:</label>
                             <input type="text" id="q4-ans" placeholder="למשל: 8.8.8.5" dir="ltr" class="w-full max-w-md bg-white border border-slate-300 rounded-lg p-2.5 text-slate-900 code-font focus:outline-none focus:border-amber-600 text-left">
                         </div>
 
@@ -494,7 +494,7 @@
                     <div class="border-b border-amber-100 pb-3 flex justify-between items-start flex-wrap gap-3">
                         <div>
                             <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">הערכה מעצבת לבגרות</span>
-                            <h2 class="text-2xl font-black text-slate-900 mt-2">מבדק ידע בנושא <span class="en-term code-font">NAT</span> (10 שאלות) + שאלת רפלקציה</h2>
+                            <h2 class="text-2xl font-black text-slate-900 mt-2">מבדק ידע בנושא <span class="en-term code-font">NAT</span> 10 שאלות + שאלת רפלקציה</h2>
                             <p class="text-xs text-slate-600 mt-1">ענה על 10 שאלות הרב-ברירה הבאות, ולאחר מכן כתוב את הרפלקציה האישית שלך.</p>
                         </div>
                         <!-- COOL TEACHER BUTTON -->
@@ -524,24 +524,24 @@
 
                         <!-- Q2 -->
                         <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
-                            <p class="font-bold text-slate-900">2. בטכנולוגיית <span class="en-term code-font text-[11px]">NAT Overload (PAT)</span>, כיצד הנתב מפריד בין תקשורות של מחשבים שונים השותפים לאותה כתובת ציבורית?</p>
+                            <p class="font-bold text-slate-900">2. בטכנולוגיית <span class="en-term code-font text-[11px]">NAT Overload PAT</span>, כיצד הנתב מפריד בין תקשורות של מחשבים שונים השותפים לאותה כתובת ציבורית?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q2" value="a" class="accent-amber-600">
                                 <span>א. לפי כתובת ה-<span class="en-term code-font text-[10px]">MAC</span> הפיזית של המחשב.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q2" value="b" class="accent-amber-600">
-                                <span>ב. באמצעות מספרי פורטים (<span class="en-term code-font text-[10px]">Port Numbers</span>) ייחודיים לכל שיחה.</span>
+                                <span>ב. באמצעות מספרי פורטים <span class="en-term code-font text-[10px]">Port Numbers</span> ייחודיים לכל שיחה.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q2" value="c" class="accent-amber-600">
-                                <span>ג. לפי שם המחשב ברשת (<span class="en-term code-font text-[10px]">Host Name</span>).</span>
+                                <span>ג. לפי שם המחשב ברשת <span class="en-term code-font text-[10px]">Host Name</span>.</span>
                             </label>
                         </div>
 
                         <!-- Q3 -->
                         <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
-                            <p class="font-bold text-slate-900">3. מה מהבאים מאפיין <span class="en-term code-font text-[11px]">Static NAT</span> (סטטי)?</p>
+                            <p class="font-bold text-slate-900">3. מה מהבאים מאפיין <span class="en-term code-font text-[11px]">Static NAT</span> סטטי?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q3" value="a" class="accent-amber-600">
                                 <span>א. מיפוי קבוע של <span class="en-term code-font text-[10px]">1:1</span> בין כתובת פרטית פנימית לכתובת ציבורית חיצונית.</span>
@@ -552,20 +552,20 @@
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q3" value="c" class="accent-amber-600">
-                                <span>ג. מנגנון הפועל אך ורק בשכבת האפליקציה (<span class="en-term code-font text-[10px]">Layer 7</span>).</span>
+                                <span>ג. מנגנון הפועל אך ורק בשכבת האפליקציה <span class="en-term code-font text-[10px]">Layer 7</span>.</span>
                             </label>
                         </div>
 
                         <!-- Q4 -->
                         <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
-                            <p class="font-bold text-slate-900">4. כאשר חבילת תשובה (<span class="en-term code-font text-[11px]">Reply</span>) חוזרת מהשרת באינטרנט אל המחשב ברשת הפנימית, איזה שדה מעטפה הנתב מתרגם?</p>
+                            <p class="font-bold text-slate-900">4. כאשר חבילת תשובה <span class="en-term code-font text-[11px]">Reply</span> חוזרת מהשרת באינטרנט אל המחשב ברשת הפנימית, איזה שדה מעטפה הנתב מתרגם?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q4" value="a" class="accent-amber-600">
-                                <span>א. כתובת ה-<span class="en-term code-font text-[10px]">IP</span> של המקור (<span class="en-term code-font text-[10px]">Source IP</span>).</span>
+                                <span>א. כתובת ה-<span class="en-term code-font text-[10px]">IP</span> של המקור <span class="en-term code-font text-[10px]">Source IP</span>.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q4" value="b" class="accent-amber-600">
-                                <span>ב. כתובת ה-<span class="en-term code-font text-[10px]">IP</span> של היעד (<span class="en-term code-font text-[10px]">Destination IP</span>).</span>
+                                <span>ב. כתובת ה-<span class="en-term code-font text-[10px]">IP</span> של היעד <span class="en-term code-font text-[10px]">Destination IP</span>.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q4" value="c" class="accent-amber-600">
@@ -578,11 +578,11 @@
                             <p class="font-bold text-slate-900">5. איזה ממשק בנתב מוגדר כ-<span class="en-term code-font text-[11px]">NAT Inside</span> בסימולציה שתרגלנו?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q5" value="a" class="accent-amber-600">
-                                <span>א. ממשק <span class="en-term code-font text-[10px]">Fa1/0</span> (<span class="code-font">100.2.3.2</span>)</span>
+                                <span>א. ממשק <span class="en-term code-font text-[10px]">Fa1/0</span> <span class="code-font">100.2.3.2</span></span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q5" value="b" class="accent-amber-600">
-                                <span>ב. ממשק <span class="en-term code-font text-[10px]">Fa0/0</span> (<span class="code-font">172.16.1.1</span>)</span>
+                                <span>ב. ממשק <span class="en-term code-font text-[10px]">Fa0/0</span> <span class="code-font">172.16.1.1</span></span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q5" value="c" class="accent-amber-600">
@@ -592,7 +592,7 @@
 
                         <!-- Q6 -->
                         <div class="p-4 bg-amber-50/40 rounded-xl border border-amber-200 space-y-2">
-                            <p class="font-bold text-slate-900">6. איזה טווח כתובות מיועד לשימוש ככתובות <span class="en-term code-font text-[11px]">IP</span> פרטיות בלבד לפי התקן (<span class="en-term code-font text-[11px]">RFC 1918</span>)?</p>
+                            <p class="font-bold text-slate-900">6. איזה טווח כתובות מיועד לשימוש ככתובות <span class="en-term code-font text-[11px]">IP</span> פרטיות בלבד לפי התקן <span class="en-term code-font text-[11px]">RFC 1918</span>?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q6" value="a" class="accent-amber-600">
                                 <span>א. <span class="code-font">8.8.8.0/24</span></span>
@@ -612,15 +612,15 @@
                             <p class="font-bold text-slate-900">7. באיזה חלק של מעטפת המידע מבצע הנתב את השינוי בטרנספורמציית <span class="en-term code-font text-[11px]">PAT</span>?</p>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q7" value="a" class="accent-amber-600">
-                                <span>א. בשכבת הרשת (<span class="en-term code-font text-[10px]">Layer 3</span>) בלבד.</span>
+                                <span>א. בשכבת הרשת <span class="en-term code-font text-[10px]">Layer 3</span> בלבד.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q7" value="b" class="accent-amber-600">
-                                <span>ב. בשכבת הרשת (<span class="en-term code-font text-[10px]">Layer 3</span>) ובשכבת התחבורה (<span class="en-term code-font text-[10px]">Layer 4</span>).</span>
+                                <span>ב. בשכבת הרשת <span class="en-term code-font text-[10px]">Layer 3</span> ובשכבת התחבורה <span class="en-term code-font text-[10px]">Layer 4</span>.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q7" value="c" class="accent-amber-600">
-                                <span>ג. בשכבת הערוץ (<span class="en-term code-font text-[10px]">Layer 2</span>) בלבד.</span>
+                                <span>ג. בשכבת הערוץ <span class="en-term code-font text-[10px]">Layer 2</span> בלבד.</span>
                             </label>
                         </div>
 
@@ -633,7 +633,7 @@
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q8" value="b" class="accent-amber-600">
-                                <span>ב. חבילת הנתונים של המחשב תיזרק (<span class="en-term code-font text-[10px]">Dropped</span>) והוא לא יוכל לגשת לרשת.</span>
+                                <span>ב. חבילת הנתונים של המחשב תיזרק <span class="en-term code-font text-[10px]">Dropped</span> והוא לא יוכל לגשת לרשת.</span>
                             </label>
                             <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
                                 <input type="radio" name="quiz-q8" value="c" class="accent-amber-600">
@@ -726,16 +726,16 @@
 
             <div id="teacher-answers-box" class="hidden mt-4 space-y-3 max-h-80 overflow-y-auto pr-1 text-xs">
                 <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
-                    <span class="font-bold text-emerald-900">מפתח תשובות נכונות (10 שאלות):</span>
+                    <span class="font-bold text-emerald-900">מפתח תשובות נכונות 10 שאלות:</span>
                     <ol class="list-decimal list-inside text-slate-800 space-y-1 font-mono">
                         <li><b>ב'</b> - חסכון בכתובות IPv4.</li>
-                        <li><b>ב'</b> - שימוש במספרי פורטים (Port Numbers).</li>
+                        <li><b>ב'</b> - שימוש במספרי פורטים Port Numbers.</li>
                         <li><b>א'</b> - מיפוי קבוע 1:1.</li>
-                        <li><b>ב'</b> - כתובת ה-IP של היעד (Destination IP).</li>
-                        <li><b>ב'</b> - ממשק Fa0/0 (172.16.1.1).</li>
-                        <li><b>ב'</b> - 172.16.0.0/12 (RFC 1918).</li>
-                        <li><b>ב'</b> - Layer 3 (IP) ו-Layer 4 (Port).</li>
-                        <li><b>ב'</b> - החבילה תיזרק (Dropped).</li>
+                        <li><b>ב'</b> - כתובת ה-IP של היעד Destination IP.</li>
+                        <li><b>ב'</b> - ממשק Fa0/0 172.16.1.1.</li>
+                        <li><b>ב'</b> - 172.16.0.0/12 RFC 1918.</li>
+                        <li><b>ב'</b> - Layer 3 IP ו-Layer 4 Port.</li>
+                        <li><b>ב'</b> - החבילה תיזרק Dropped.</li>
                         <li><b>ב'</b> - הכתובת הציבורית בה נראה המחשב החוצה.</li>
                         <li><b>א'</b> - אבטחה בסיסית על ידי הסתרת הכתובות הפנימיות.</li>
                     </ol>
@@ -892,20 +892,20 @@
             if (part === 1) {
                 btn1.disabled = true;
                 
-                document.getElementById('env-title').innerText = "בקשה מיוצאת (Request)";
+                document.getElementById('env-title').innerText = "בקשה מיוצאת Request";
                 document.getElementById('env-src').innerText = "172.16.1.100";
                 document.getElementById('env-dst').innerText = "8.8.8.5";
 
                 env.style.left = `${posPC1.x}px`;
                 env.style.top = `${posPC1.y}px`;
-                statusText.innerText = "חלק 1: החבילה יוצאת מ-PC1 (172.16.1.100) לכיוון המתג...";
+                statusText.innerText = "חלק 1: החבילה יוצאת מ-PC1 172.16.1.100 לכיוון המתג...";
 
                 setTimeout(() => {
                     env.style.left = `${posRouter.x}px`;
                     env.style.top = `${posRouter.y}px`;
                     
                     setTimeout(() => {
-                        document.getElementById('env-src').innerText = "100.2.3.2 (NAT)";
+                        document.getElementById('env-src').innerText = "100.2.3.2 NAT";
                         statusText.innerText = "הנתב תירגם את כתובת המקור מ-172.16.1.100 לכתובת הציבורית 100.2.3.2!";
                         addLog("[NAT Outgoing] תורגם מקור: 172.16.1.100 ➔ 100.2.3.2");
 
@@ -914,7 +914,7 @@
                             env.style.top = `${posServer.y}px`;
 
                             setTimeout(() => {
-                                statusText.innerText = "החבילה הגיעה לשרת (8.8.8.5)! כעת ניתן לשגר את חבילת התשובה חזרה.";
+                                statusText.innerText = "החבילה הגיעה לשרת 8.8.8.5! כעת ניתן לשגר את חבילת התשובה חזרה.";
                                 addLog("[Server] בקשה התקבלה ב-8.8.8.5");
                                 btn2.disabled = false;
                             }, 1800);
@@ -925,21 +925,21 @@
             } else if (part === 2) {
                 btn2.disabled = true;
 
-                document.getElementById('env-title').innerText = "תשובה מוחזרת (Reply)";
+                document.getElementById('env-title').innerText = "תשובה מוחזרת Reply";
                 document.getElementById('env-src').innerText = "8.8.8.5";
                 document.getElementById('env-dst').innerText = "100.2.3.2";
 
                 env.style.left = `${posServer.x}px`;
                 env.style.top = `${posServer.y}px`;
-                statusText.innerText = "חלק 2 (שאלת הבגרות): החבילה חוזרת מהשרת (8.8.8.5) אל הכתובת הציבורית של הנתב (100.2.3.2)...";
+                statusText.innerText = "חלק 2 שאלת הבגרות: החבילה חוזרת מהשרת 8.8.8.5 אל הכתובת הציבורית של הנתב 100.2.3.2...";
 
                 setTimeout(() => {
                     env.style.left = `${posRouter.x}px`;
                     env.style.top = `${posRouter.y}px`;
 
                     setTimeout(() => {
-                        document.getElementById('env-dst').innerText = "172.16.1.100 (NAT)";
-                        statusText.innerText = "הנתב קיבל את התשובה בפורט הציבורי ותירגם את היעד חזרה ל-PC1 (172.16.1.100)!";
+                        document.getElementById('env-dst').innerText = "172.16.1.100 NAT";
+                        statusText.innerText = "הנתב קיבל את התשובה בפורט הציבורי ותירגם את היעד חזרה ל-PC1 172.16.1.100!";
                         addLog("[NAT Incoming] תורגם יעד: 100.2.3.2 ➔ 172.16.1.100");
 
                         setTimeout(() => {
@@ -987,11 +987,11 @@
         }
 
         const nodesData = {
-            server: { title: "שרת אינטרנט חיצוני (www.mynet.com)", subtitle: "IP: 8.8.8.5", desc: "שרת אינטרנט ציבורי שמחזיר את דף אינטרנט המבוקש.", extra: "Outside IP: 8.8.8.5" },
-            router: { title: "נתב ביתי (Home_Router)", subtitle: "NAT Overload", desc: "מבצע תרגום כתובות בין הרשת הפנימית לאינטרנט.", extra: "Fa1/0 (Outside): 100.2.3.2\nFa0/0 (Inside): 172.16.1.1" },
-            switch: { title: "מתג רשת (Switch0)", subtitle: "Layer 2", desc: "מחבר בין הציוד ברשת הפנימית לנתב.", extra: "Switching LAN Traffic" },
+            server: { title: "שרת אינטרנט חיצוני www.mynet.com", subtitle: "IP: 8.8.8.5", desc: "שרת אינטרנט ציבורי שמחזיר את דף אינטרנט המבוקש.", extra: "Outside IP: 8.8.8.5" },
+            router: { title: "נתב ביתי Home_Router", subtitle: "NAT Overload", desc: "מבצע תרגום כתובות בין הרשת הפנימית לאינטרנט.", extra: "Fa1/0 Outside: 100.2.3.2\nFa0/0 Inside: 172.16.1.1" },
+            switch: { title: "מתג רשת Switch0", subtitle: "Layer 2", desc: "מחבר בין הציוד ברשת הפנימית לנתב.", extra: "Switching LAN Traffic" },
             pc0: { title: "תחנת PC0", subtitle: "IP: 172.16.1.200", desc: "מחשב ברשת הפנימית.", extra: "Default Gateway: 172.16.1.1" },
-            pc1: { title: "תחנת PC1 (היוזם)", subtitle: "IP: 172.16.1.100", desc: "המחשב שיוזם את הפנייה לשרת.", extra: "Default Gateway: 172.16.1.1" }
+            pc1: { title: "תחנת PC1 היוזם", subtitle: "IP: 172.16.1.100", desc: "המחשב שיוזם את הפנייה לשרת.", extra: "Default Gateway: 172.16.1.1" }
         };
 
         function showNodeInfo(k) {
@@ -1022,10 +1022,10 @@
 
             if (score === 4) {
                 feedback.className += " bg-emerald-100 text-emerald-800 border border-emerald-300";
-                feedback.innerHTML = `🌟 <b>תשובה מושלמת (100%)!</b> ענית נכון על כל 4 הסעיפים!`;
+                feedback.innerHTML = `🌟 <b>תשובה מושלמת 100%!</b> ענית נכון על כל 4 הסעיפים!`;
             } else {
                 feedback.className += " bg-red-100 text-red-800 border border-red-300";
-                feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות (${score}/4).</b> נסה שוב!`;
+                feedback.innerHTML = `❌ <b>חלק מהתשובות אינן מדויקות ${score}/4.</b> נסה שוב!`;
             }
         }
 
